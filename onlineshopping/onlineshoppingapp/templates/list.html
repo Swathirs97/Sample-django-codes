@@ -1,0 +1,61 @@
+{% extends 'home.html' %}
+
+{% block content %}
+    <div class="container mt-4">
+     
+   <h1 style="
+    text-align: center; 
+    margin-bottom: 30px; 
+    font-size: 40px; 
+    color: transparent; 
+    font-weight: bold;
+    text-shadow: 
+        1px 1px 0px #6a11cb, 
+        2px 2px 0px #2575fc;
+">
+    Product List
+</h1>
+
+<div class="row">
+            {% for product in products %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" style="height: 250px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ product.category.name }}</h6>
+                        <p class="card-text"><strong>Price: </strong>${{ product.price }}</p>
+                        
+                        <!-- Trigger the modal with a button -->
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productModal{{ product.id }}">
+                            View Details
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="productModal{{ product.id }}" tabindex="-1" aria-labelledby="productModalLabel{{ product.id }}" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="productModalLabel{{ product.id }}">{{ product.name }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <img src="{{ product.image.url }}" class="img-fluid" alt="{{ product.name }}" style="height: 300px; object-fit: cover; ">
+                            <p style="color: rgb(68, 67, 67);"><strong>Category:</strong> {{ product.category.name }}</p>
+                            <p style="color: rgb(68, 67, 67);"><strong>Description:</strong> {{ product.description }}</p>
+                            <p style="color: rgb(68, 67, 67);"><strong>Price:</strong> ${{ product.price }}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

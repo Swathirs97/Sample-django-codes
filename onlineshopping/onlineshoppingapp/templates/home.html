@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shopping App</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Background gradient for the page */
+    body {
+      background: url('https://wallpapers.com/images/hd/light-color-background-1eq9mtpjqjz9ddep.jpg') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Arial', sans-serif;
+      color: #fff;
+    }
+
+    /* Navbar Style */
+    .navbar {
+      background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+      padding: 1rem 2rem;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      border-radius: 0 0 10px 10px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .navbar-brand {
+      color: #fff;
+      font-weight: bold;
+      font-size: 1.75rem;
+      letter-spacing: 1.2px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Navbar Links */
+    .navbar-nav .nav-link {
+      color: #ffffff;
+      margin-right: 1.5rem;
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      transition: color 0.3s ease, transform 0.3s ease;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+    }
+
+    .navbar-nav .nav-link:hover {
+      color: #ffdd57;
+      transform: translateY(-2px);
+    }
+
+    /* Active Link */
+    .navbar-nav .nav-link.active {
+      color: #ffdd57;
+      font-weight: bold;
+      border-bottom: 3px solid #ffdd57;
+      text-shadow: 0 0 10px rgba(255, 221, 87, 0.7);
+    }
+
+    /* Disabled Link */
+    .navbar-nav .nav-link.disabled {
+      color: rgba(255, 255, 255, 0.5);
+      cursor: not-allowed;
+    }
+
+    /* Content Block Styling */
+    .container {
+      margin-top: 80px; /* Adjust to avoid navbar overlap */
+    }
+
+    .content-box {
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .content-box h1 {
+      text-align: center;
+      font-size: 2rem;
+      color: #333;
+    }
+
+    /* Button styling */
+    .btn-custom {
+      background-color: #ffdd57;
+      color: #333;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      text-transform: uppercase;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .btn-custom:hover {
+      background-color: #ffcc00;
+      transform: translateY(-2px);
+    }
+
+    /* Hover effects */
+    .card {
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-img-top {
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg">
+  <!-- <a class="navbar-brand" href="{% url 'home' %}" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Shopping App</a>
+   -->
+  <a class="navbar-brand" href="{% url 'home' %}" style="font-family: 'Mukta', sans-serif;
+    font-size: 32px; 
+    letter-spacing: 2px; 
+    background: linear-gradient(to right, #ffffff, #ffffff);
+    background-clip: text;
+    color: transparent; 
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4); 
+    padding: 5px;">
+    Shopping App
+</a>
+
+
+  <!-- Add the Navbar Toggler for mobile view -->
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav ms-auto">
+      <a class="nav-item nav-link {% if request.path == '/' or request.path == '/home' %}active{% endif %}" href="{% url 'home' %}">Home</a>
+      <a class="nav-item nav-link {% if request.path == '/register' %}active{% endif %}" href="{% url 'register' %}">Register</a>
+      <a class="nav-item nav-link {% if request.path == '/list' %}active{% endif %}" href="{% url 'list' %}">List</a>
+    </div>
+  </div>
+</nav>
+
+{% block content %}
+<div class="container">
+<h1 style="text-align: center; text-shadow: 2px 2px 5px #666, -2px -2px 5px #999;">Explore Your Needs!</h1>
+<h2 style="color: #333; font-size: 1rem; text-transform: uppercase;">Categories</h2>
+    
+    <div class="row">
+      {% for category in categories %}
+        <div class="col-md-4 mb-4">
+          <div class="card">
+            <img src="{{ category.image.url }}" class="card-img-top" alt="{{ category.name }}">
+            <div class="card-body">
+              <h5 class="card-title">{{ category.name }}</h5>
+              <p class="card-text">{{ category.description }}</p>
+              <a href="{% url 'category_detail' category.id %}" class="btn btn-custom">Explore</a>
+            </div>
+          </div>
+        </div>
+      {% empty %}
+        <p>No categories available.</p>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}
+
+<!-- Include the Bootstrap JS Bundle once (no duplicates) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

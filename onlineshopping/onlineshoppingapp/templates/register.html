@@ -1,0 +1,20 @@
+{% extends 'home.html' %}
+
+{% block content %}
+    <form action="" method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; background: url('https://wallpapers.com/images/hd/light-color-background-1eq9mtpjqjz9ddep.jpg') no-repeat center center fixed; background-size: cover; padding: 50px; box-sizing: border-box;">
+        {% csrf_token %}
+        <div style="max-width: 550px; width: 100%; background-color: rgba(255, 255, 255, 0.8); padding: 30px; border-radius: 10px; box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2); color: #000;">
+            <h1 style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 26px; color: #000; text-align: center; margin-bottom: 30px;">
+                Product Registration
+            </h1>
+            
+            <div style="margin-bottom: 25px;">
+                {{ form.as_p }}
+            </div>
+            
+            <button type="submit" style="background-color: #6a11cb; color: white; padding: 12px 24px; border: none; border-radius: 6px; cursor: pointer; font-size: 18px; width: 100%; transition: background-color 0.3s ease; text-transform: uppercase;">
+                Register Product
+            </button>
+        </div>
+    </form>
+{% endblock %}
