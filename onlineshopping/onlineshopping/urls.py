@@ -18,8 +18,14 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.shortcuts import redirect
+
+# Redirect admin/ to custom admin panel
+def redirect_to_admin_panel(request):
+    return redirect('admin_panel')
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', redirect_to_admin_panel),
+    path('django-admin/', admin.site.urls),  # Keep Django admin accessible at /django-admin/
     path('', include('onlineshoppingapp.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

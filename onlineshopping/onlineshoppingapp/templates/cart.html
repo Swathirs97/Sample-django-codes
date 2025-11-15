@@ -1,0 +1,228 @@
+{% extends 'home.html' %}
+
+{% block content %}
+<style>
+  body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  .cart-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .cart-header {
+    text-align: center;
+    color: white;
+    margin-bottom: 40px;
+  }
+
+  .cart-header h1 {
+    font-size: 3rem;
+    font-weight: 900;
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+    margin-bottom: 10px;
+  }
+
+  .cart-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    transition: all 0.3s ease;
+  }
+
+  .cart-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+  }
+
+  .cart-image {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 15px;
+  }
+
+  .cart-details {
+    flex: 1;
+  }
+
+  .cart-details h3 {
+    color: #667eea;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .cart-actions {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .quantity-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #f5f5f5;
+    padding: 8px 15px;
+    border-radius: 10px;
+  }
+
+  .quantity-control input {
+    width: 60px;
+    text-align: center;
+    border: 2px solid #667eea;
+    border-radius: 5px;
+    padding: 5px;
+    font-weight: 600;
+  }
+
+  .quantity-control button {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 5px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  .btn-remove {
+    background: #ff4757;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-align: center;
+    display: inline-block;
+  }
+
+  .btn-remove:hover {
+    background: #e84118;
+    transform: scale(1.05);
+    color: white;
+  }
+
+  .cart-total {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    text-align: center;
+  }
+
+  .cart-total h2 {
+    color: #667eea;
+    font-weight: 900;
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+
+  .total-price {
+    font-size: 2.5rem;
+    color: #2ecc71;
+    font-weight: 900;
+    margin-bottom: 20px;
+  }
+
+  .btn-checkout {
+    background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+    color: white;
+    padding: 15px 40px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    display: inline-block;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-checkout:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(46, 204, 113, 0.4);
+    color: white;
+  }
+
+  .empty-cart {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 60px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+</style>
+
+<div class="cart-container">
+  <div class="cart-header">
+    <h1><i class="fas fa-shopping-cart"></i> My Cart</h1>
+  </div>
+
+  {% if cart_items %}
+    {% for item in cart_items %}
+    <div class="cart-card">
+      <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="cart-image">
+      <div class="cart-details">
+        <h3>{{ item.product.name }}</h3>
+        <p><strong>Category:</strong> {{ item.product.category.name }}</p>
+        <p><strong>Price:</strong> ₹{{ item.product.price }}</p>
+        <p><strong>Subtotal:</strong> ₹{{ item.get_total_price }}</p>
+      </div>
+      <div class="cart-actions">
+        <form method="POST" action="{% url 'update_cart_quantity' item.product.id %}" class="quantity-control">
+          {% csrf_token %}
+          <button type="button" onclick="decrementQty(this)">-</button>
+          <input type="number" name="quantity" value="{{ item.quantity }}" min="1" readonly>
+          <button type="button" onclick="incrementQty(this)">+</button>
+          <button type="submit" style="background: #2ecc71;">Update</button>
+        </form>
+        <a href="{% url 'remove_from_cart' item.product.id %}" class="btn-remove">
+          <i class="fas fa-trash"></i> Remove
+        </a>
+      </div>
+    </div>
+    {% endfor %}
+
+    <div class="cart-total">
+      <h2>Cart Total</h2>
+      <div class="total-price">₹{{ total_price }}</div>
+      <button class="btn-checkout">
+        <i class="fas fa-credit-card"></i> Proceed to Checkout
+      </button>
+    </div>
+  {% else %}
+    <div class="empty-cart">
+      <i class="fas fa-shopping-cart" style="font-size: 5rem; color: #667eea; opacity: 0.5; margin-bottom: 20px;"></i>
+      <h3>Your cart is empty</h3>
+      <p>Add some products to your cart to see them here!</p>
+      <a href="{% url 'list' %}" class="btn btn-primary mt-3">Browse Products</a>
+    </div>
+  {% endif %}
+</div>
+
+<script>
+  function incrementQty(btn) {
+    const input = btn.parentElement.querySelector('input[name="quantity"]');
+    input.value = parseInt(input.value) + 1;
+  }
+
+  function decrementQty(btn) {
+    const input = btn.parentElement.querySelector('input[name="quantity"]');
+    if (parseInt(input.value) > 1) {
+      input.value = parseInt(input.value) - 1;
+    }
+  }
+</script>
+
+{% endblock %}

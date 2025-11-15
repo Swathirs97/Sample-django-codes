@@ -1,8 +1,305 @@
 {% extends 'home.html' %}
 
 {% block content %}
-    <div class="container content-box">
-        <h1>Welcome, {{ fname }} {{ lname }}!</h1>
+
+<style>
+  .dashboard-container {
+    min-height: 60vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    animation: containerAppear 1s ease;
+  }
+
+  @keyframes containerAppear {
+    from {
+      opacity: 0;
+      filter: blur(10px);
+    }
+    to {
+      opacity: 1;
+      filter: blur(0);
+    }
+  }
+
+  .welcome-card {
+    max-width: 700px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-radius: 25px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.2), 
+                0 0 1px rgba(255, 255, 255, 0.5) inset;
+    overflow: hidden;
+    animation: bounceIn 0.8s ease, cardFloat 6s ease-in-out infinite;
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .welcome-card::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #667eea);
+    background-size: 300% 300%;
+    border-radius: 25px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    animation: gradientShift 6s ease infinite;
+  }
+
+  .welcome-card:hover::before {
+    opacity: 0.5;
+  }
+
+  @keyframes bounceIn {
+    0% {
+      opacity: 0;
+      transform: scale(0.8) rotate(-5deg);
+    }
+    50% {
+      transform: scale(1.05) rotate(2deg);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+    }
+  }
+
+  @keyframes cardFloat {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-15px);
+    }
+  }
+
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .welcome-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 60px 40px;
+    text-align: center;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .welcome-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 10%, transparent 50%);
+    animation: pulse 4s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 0.5;
+    }
+    50% {
+      transform: scale(1.1);
+      opacity: 0.8;
+    }
+  }
+
+  .welcome-header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0;
+    text-shadow: 2px 4px 8px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 1;
+  }
+
+  .welcome-header .greeting-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    display: block;
+    animation: wave 1s ease-in-out infinite;
+  }
+
+  @keyframes wave {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(20deg); }
+    75% { transform: rotate(-20deg); }
+  }
+
+  .welcome-body {
+    padding: 40px;
+    text-align: center;
+    position: relative;
+  }
+
+  .welcome-body::before {
+    content: '🎉';
+    position: absolute;
+    top: 20px;
+    left: 30px;
+    font-size: 2rem;
+    animation: confetti1 3s ease-in-out infinite;
+  }
+
+  .welcome-body::after {
+    content: '🎊';
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 2rem;
+    animation: confetti2 3s ease-in-out infinite;
+  }
+
+  @keyframes confetti1 {
+    0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
+    50% { transform: translateY(-10px) rotate(15deg); opacity: 1; }
+  }
+
+  @keyframes confetti2 {
+    0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
+    50% { transform: translateY(-10px) rotate(-15deg); opacity: 1; }
+  }
+
+  .welcome-body p {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 30px;
+    line-height: 1.8;
+    animation: fadeInScale 0.8s ease 0.3s both;
+  }
+
+  @keyframes fadeInScale {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .action-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .action-btn {
+    padding: 15px 30px;
+    border-radius: 50px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .action-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+
+  .action-btn:hover::before {
+    width: 300px;
+    height: 300px;
+  }
+
+  .action-btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  }
+
+  .action-btn-primary:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.6);
+    color: #fff;
+  }
+
+  .action-btn-primary:active {
+    transform: translateY(-2px) scale(1.02);
+  }
+
+  .action-btn-secondary {
+    background: #fff;
+    color: #667eea;
+    border: 2px solid #667eea;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+  }
+
+  .action-btn-secondary::before {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+
+  .action-btn-secondary:hover {
+    color: #fff;
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+  }
+
+  .action-btn-secondary:active {
+    transform: translateY(-2px) scale(1.02);
+  }
+
+  .action-btn i {
+    position: relative;
+    z-index: 1;
+    transition: transform 0.3s ease;
+  }
+
+  .action-btn:hover i {
+    transform: scale(1.2) rotate(10deg);
+  }
+</style>
+
+<div class="dashboard-container">
+  <div class="welcome-card">
+    <div class="welcome-header">
+      <span class="greeting-icon">👋</span>
+      <h1>Welcome, {% if fname and lname %}{{ fname }} {{ lname }}{% elif fname %}{{ fname }}{% else %}{{ user.username }}{% endif %}!</h1>
     </div>
+    <div class="welcome-body">
+      <p>
+        <i class="fas fa-check-circle" style="color: #667eea;"></i> 
+        You're successfully logged in and ready to explore our amazing products!
+      </p>
+      <div class="action-buttons">
+        <a href="{% url 'list' %}" class="action-btn action-btn-primary">
+          <i class="fas fa-shopping-cart"></i> Browse Products
+        </a>
+        <!-- <a href="{% url 'register' %}" class="action-btn action-btn-secondary">
+          <i class="fas fa-plus-circle"></i> Add Product
+        </a> -->
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock %}

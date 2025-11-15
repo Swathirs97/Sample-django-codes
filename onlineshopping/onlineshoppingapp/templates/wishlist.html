@@ -1,0 +1,147 @@
+{% extends 'home.html' %}
+
+{% block content %}
+<style>
+  body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  .wishlist-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .wishlist-header {
+    text-align: center;
+    color: white;
+    margin-bottom: 40px;
+  }
+
+  .wishlist-header h1 {
+    font-size: 3rem;
+    font-weight: 900;
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+    margin-bottom: 10px;
+  }
+
+  .wishlist-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    transition: all 0.3s ease;
+  }
+
+  .wishlist-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+  }
+
+  .wishlist-image {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 15px;
+  }
+
+  .wishlist-details {
+    flex: 1;
+  }
+
+  .wishlist-details h3 {
+    color: #667eea;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .wishlist-actions {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+  }
+
+  .btn-remove {
+    background: #ff4757;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-align: center;
+  }
+
+  .btn-remove:hover {
+    background: #e84118;
+    transform: scale(1.05);
+    color: white;
+  }
+
+  .btn-cart {
+    background: #2ecc71;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-align: center;
+  }
+
+  .btn-cart:hover {
+    background: #27ae60;
+    transform: scale(1.05);
+    color: white;
+  }
+
+  .empty-wishlist {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 60px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+</style>
+
+<div class="wishlist-container">
+  <div class="wishlist-header">
+    <h1><i class="fas fa-heart"></i> My Wishlist</h1>
+  </div>
+
+  {% if wishlist_items %}
+    {% for item in wishlist_items %}
+    <div class="wishlist-card">
+      <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="wishlist-image">
+      <div class="wishlist-details">
+        <h3>{{ item.product.name }}</h3>
+        <p><strong>Category:</strong> {{ item.product.category.name }}</p>
+        <p><strong>Price:</strong> ₹{{ item.product.price }}</p>
+        <p>{{ item.product.description|truncatewords:20 }}</p>
+      </div>
+      <div class="wishlist-actions">
+        <a href="{% url 'add_to_cart' item.product.id %}" class="btn-cart">
+          <i class="fas fa-shopping-cart"></i> Add to Cart
+        </a>
+        <a href="{% url 'remove_from_wishlist' item.product.id %}" class="btn-remove">
+          <i class="fas fa-trash"></i> Remove
+        </a>
+      </div>
+    </div>
+    {% endfor %}
+  {% else %}
+    <div class="empty-wishlist">
+      <i class="fas fa-heart-broken" style="font-size: 5rem; color: #667eea; opacity: 0.5; margin-bottom: 20px;"></i>
+      <h3>Your wishlist is empty</h3>
+      <p>Add some products to your wishlist to see them here!</p>
+      <a href="{% url 'list' %}" class="btn btn-primary mt-3">Browse Products</a>
+    </div>
+  {% endif %}
+</div>
+
+{% endblock %}
