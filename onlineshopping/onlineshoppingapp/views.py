@@ -168,10 +168,12 @@ def dashboard(request):
     if request.user.is_authenticated:
         f = request.user.first_name
         l = request.user.last_name
+        categories = Category.objects.all()
         context = {
             'fname': f,
             'lname': l,
             'user': request.user,
+            'categories': categories,
             'wishlist_count': Wishlist.objects.filter(user=request.user).count(),
             'cart_count': Cart.objects.filter(user=request.user).count()
         }

@@ -35,8 +35,8 @@
 
   /* Cart Count Badge Styles */
   .cart-count {
-    background: #48bb78;
-    color: #2c5282;
+    background: #3a3d42;
+    color: #a8aeb8;
     padding: 12px 24px;
     border-radius: 4px;
     font-weight: 600;
@@ -76,15 +76,15 @@
     content: '';
     position: absolute;
     inset: -2px;
-    background: #48bb78;
+    background: #2d3748;
     border-radius: 4px;
     z-index: -1;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.4s ease;
   }
 
   .cart-card:hover {
-    transform: translateY(-3px);
+    transform: translateY(-10px);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
   }
 
@@ -534,10 +534,10 @@
           <h3>{{ item.product.name }}</h3>
           <div class="cart-price-info">
             <span class="cart-unit-price">
-              <i class="fas fa-rupee-sign"></i>{{ item.product.price }} × {{ item.quantity }}
+              ₹{{ item.product.price }} × {{ item.quantity }}
             </span>
             <span class="cart-subtotal">
-              <i class="fas fa-rupee-sign"></i>{{ item.get_total_price }}
+              ₹{{ item.get_total_price }}
             </span>
           </div>
         </div>
@@ -581,7 +581,7 @@
       <div class="summary-row">
         <span class="summary-label">Subtotal ({{ cart_count }} items)</span>
         <span class="summary-value">
-          <i class="fas fa-rupee-sign"></i>{{ total_price }}
+          ₹{{ total_price }}
         </span>
       </div>
 
@@ -596,7 +596,7 @@
         <div class="summary-row">
           <span class="summary-label">Total Amount</span>
           <span class="summary-value">
-            <i class="fas fa-rupee-sign"></i>{{ total_price }}
+            ₹{{ total_price }}
           </span>
         </div>
       </div>

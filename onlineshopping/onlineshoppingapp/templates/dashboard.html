@@ -178,44 +178,77 @@
   .action-btn:hover i {
     transform: scale(1.1);
   }
+
+  /* Categories Section Styles */
+  .categories-section {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 20px;
+  }
+
+  .categories-section h2 {
+    color: #2d3748;
+    font-weight: 600;
+    font-size: 2rem;
+    margin-bottom: 30px;
+    text-align: center;
+  }
 </style>
-<!-- Dashboard Container -->
-<div class="dashboard-container">
+
+<!-- Welcome Section at Top -->
+<div class="dashboard-container" style="min-height: auto; padding-top: 40px; padding-bottom: 20px;">
   <div class="welcome-card">
     <!-- Welcome Header -->
     <div class="welcome-header">
       <span class="greeting-icon">👋</span>
-      <h1>
-        Welcome,
+      <h1 style="color: white;">
+        Welcome, 
         {% if fname and lname %}
-          {{ fname }} {{ lname }}
+          {{ fname }} {{ lname }} !
         {% elif fname %}
-          {{ fname }}
+          {{ fname }} !
         {% else %}
-          {{ user.username }}
-        {% endif %}!
+          {{ user.username }} !
+        {% endif %}
       </h1>
     </div>
+  </div>
+</div>
 
-    <!-- Welcome Body -->
-    <div class="welcome-body">
-      <p>
-        <i class="fas fa-check-circle" style="color: #2c5282;"></i>
-        You're successfully logged in and ready to explore our amazing products!
-      </p>
+<!-- Categories Section -->
+<div class="categories-section">
+  <h2>
+    <i class="fas fa-th-large me-2"></i>Featured Collections
+  </h2>
 
-      <!-- Action Buttons -->
-      <div class="action-buttons">
-        <a href="{% url 'list' %}" class="action-btn action-btn-primary">
-          <i class="fas fa-shopping-cart"></i> Browse Products
-        </a>
-        <!-- Commented out Add Product button
-        <a href="{% url 'register' %}" class="action-btn action-btn-secondary">
-          <i class="fas fa-plus-circle"></i> Add Product
-        </a>
-        -->
+  <div class="row">
+    {% for category in categories %}
+    <div class="col-lg-4 col-md-6 mb-4">
+      <div class="card">
+        <img
+          src="{{ category.image.url }}"
+          class="card-img-top"
+          alt="{{ category.name }}"
+        >
+        <div class="card-body">
+          <h5 class="card-title">{{ category.name }}</h5>
+          <p class="card-text">{{ category.description }}</p>
+          <a
+            href="{% url 'category_detail' category.id %}"
+            class="btn btn-custom w-100"
+          >
+            <i class="fas fa-arrow-right me-2"></i>Explore
+          </a>
+        </div>
       </div>
     </div>
+    {% empty %}
+    <div class="col-12">
+      <div class="alert alert-info text-center">
+        <i class="fas fa-info-circle me-2"></i>No categories available at the moment
+      </div>
+    </div>
+    {% endfor %}
   </div>
 </div>
 
