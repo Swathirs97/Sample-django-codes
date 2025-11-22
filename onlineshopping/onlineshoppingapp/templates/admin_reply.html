@@ -1,0 +1,244 @@
+{% extends 'home.html' %}
+
+{% block content %}
+
+<style>
+  /* Reply Container Styles */
+  .reply-container {
+    max-width: 750px;
+    margin: 40px auto;
+    padding: 20px;
+  }
+
+  /* Reply Card Styles */
+  .reply-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 40px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+    border: 1px solid #e2e8f0;
+    position: relative;
+    overflow: hidden;
+    border-left: 5px solid #667eea;
+  }
+
+  .reply-card h3 {
+    color: #2d3748;
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .reply-card h3 i {
+    color: #667eea;
+  }
+
+  /* Review Info Styles */
+  .review-info {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.08), rgba(118, 75, 162, 0.08));
+    padding: 24px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+
+  .review-info p {
+    margin: 12px 0;
+    color: #2d3748;
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+
+  .review-info strong {
+    color: #667eea;
+    font-weight: 700;
+  }
+
+  /* Rating Stars Styles */
+  .rating-stars {
+    color: #f59e0b;
+    font-size: 1.2rem;
+    display: inline-block;
+    margin-left: 8px;
+  }
+
+  /* Reply Form Styles */
+  .reply-form label {
+    display: block;
+    color: #2d3748;
+    font-weight: 700;
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+  }
+
+  .reply-form textarea {
+    width: 100%;
+    padding: 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: all 0.3s ease;
+    resize: vertical;
+    min-height: 150px;
+    background: #ffffff;
+  }
+
+  .reply-form textarea:hover {
+    border-color: #c0c0c0;
+    background: #f7f9fc;
+  }
+
+  .reply-form textarea:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.3rem rgba(102, 126, 234, 0.2), 0 4px 15px rgba(102, 126, 234, 0.2);
+    background: #fff;
+  }
+
+  /* Button Group Styles */
+  .button-group {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+  }
+
+  /* Save Button Styles */
+  .btn-save {
+    flex: 1;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 14px 28px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-save::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+
+  .btn-save:hover::before {
+    width: 400px;
+    height: 400px;
+  }
+
+  .btn-save:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+  }
+
+  /* Cancel Button Styles */
+  .btn-cancel {
+    flex: 1;
+    background: #ffffff;
+    border: 2px solid #667eea;
+    color: #667eea;
+    padding: 14px 28px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    text-align: center;
+    display: block;
+  }
+
+  .btn-cancel:hover {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+    border-color: #667eea;
+    color: #667eea;
+  }
+</style>
+<!-- Reply Container -->
+<div class="reply-container">
+  <div class="reply-card">
+    <h3>
+      <i class="fas fa-reply"></i> Reply to Review
+    </h3>
+
+    <!-- Review Information -->
+    <div class="review-info">
+      <p>
+        <strong><i class="fas fa-user"></i> Review by:</strong>
+        {{ review.user.username }}
+        <span style="color: #999; margin-left: 10px;">
+          <i class="far fa-clock"></i> {{ review.created_at|date:"M d, Y H:i" }}
+        </span>
+      </p>
+      <p>
+        <strong><i class="fas fa-star"></i> Rating:</strong>
+        <span class="rating-stars">
+          {% for i in "12345" %}
+            {% if forloop.counter <= review.rating %}
+              <i class="fas fa-star"></i>
+            {% else %}
+              <i class="far fa-star"></i>
+            {% endif %}
+          {% endfor %}
+        </span>
+        <span style="margin-left: 8px; color: #667eea; font-weight: 700;">
+          {{ review.rating }} / 5
+        </span>
+      </p>
+      <p>
+        <strong><i class="fas fa-comment"></i> Comment:</strong>
+        <span style="display: block; margin-top: 12px; padding: 16px; background: #ffffff; border-radius: 8px; font-style: italic; border: 2px solid #f0f0f0; line-height: 1.6;">
+          "{{ review.comment }}"
+        </span>
+      </p>
+    </div>
+
+    <!-- Reply Form -->
+    <form method="post" class="reply-form">
+      {% csrf_token %}
+      <div>
+        <label for="admin_reply">
+          <i class="fas fa-pen"></i> Admin Reply
+        </label>
+        <textarea
+          name="admin_reply"
+          id="admin_reply"
+          rows="5"
+          placeholder="Enter your reply to this review..."
+        >{{ review.admin_reply }}</textarea>
+      </div>
+
+      <!-- Button Group -->
+      <div class="button-group">
+        <button type="submit" class="btn-save">
+          <span style="position: relative; z-index: 1;">
+            <i class="fas fa-check-circle"></i> Save Reply
+          </span>
+        </button>
+        <a href="{% url 'list' %}" class="btn-cancel">
+          <i class="fas fa-times"></i> Cancel
+        </a>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock %} 

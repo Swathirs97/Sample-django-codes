@@ -3,875 +3,527 @@
 {% block content %}
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap');
-
-  * {
-    font-family: 'Inter', sans-serif;
-  }
-
-  html {
-    scroll-behavior: smooth;
-  }
-
+  /* General Styles */
   body {
-    background: #0f0c29;
-    background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
-    background-size: 400% 400%;
-    animation: gradientAnimation 20s ease infinite;
-    min-height: 100vh;
-    position: relative;
-    overflow-x: hidden;
+    background: #f8f9fa;
+    font-family: 'Inter', sans-serif;
+    color: #1a202c;
+    font-size: 16px;
   }
 
-  /* Animated background pattern */
-  body::after {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: 
-      radial-gradient(circle at 15% 25%, rgba(255, 255, 255, 0.08) 2px, transparent 2px),
-      radial-gradient(circle at 85% 75%, rgba(255, 255, 255, 0.08) 2px, transparent 2px),
-      radial-gradient(circle at 45% 60%, rgba(255, 255, 255, 0.08) 2px, transparent 2px);
-    background-size: 250px 250px, 350px 350px, 200px 200px;
-    animation: floatingDots 40s linear infinite;
-    z-index: -1;
-    pointer-events: none;
+  /* Page Title Styles */
+  .page-title {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1a202c;
   }
 
-  @keyframes floatingDots {
-    0% { transform: translateY(0) translateX(0); opacity: 0.3; }
-    50% { transform: translateY(-30px) translateX(20px); opacity: 0.6; }
-    100% { transform: translateY(0) translateX(0); opacity: 0.3; }
+  .page-title i {
+    color: #2d3748;
+    margin-right: 10px;
   }
 
+  /* Product Count Styles */
+  .product-count {
+    color: #2d3748;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-top: 10px;
+  }
+
+  .product-count span {
+    color: #e53e3e;
+    font-weight: 700;
+  }
+
+  /* Category Filter Badge Styles */
+  .category-filter-badge {
+    background: #fff;
+    padding: 10px 20px;
+    border-radius: 6px;
+    color: #2d3748;
+    font-weight: 600;
+    font-size: 1.1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: inline-block;
+    border: 2px solid #2d3748;
+  }
+
+  /* Clear Filter Button Styles */
+  .clear-filter-btn {
+    display: inline-block;
+    margin-left: 15px;
+    background: #e53e3e;
+    padding: 10px 20px;
+    border-radius: 6px;
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .clear-filter-btn:hover {
+    background: #c53030;
+    color: #fff;
+    transform: translateY(-2px);
+  }
+
+  /* Info Banner Styles */
+  .info-banner {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 15px 25px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    text-align: center;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+
+  .info-banner p {
+    margin: 0;
+    color: #fff;
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+
+  .info-banner a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    border-bottom: 2px solid #fff;
+    padding-bottom: 2px;
+    transition: all 0.2s ease;
+  }
+
+  .info-banner a:hover {
+    opacity: 0.8;
+  }
+
+  /* Search Container Styles */
   .search-container {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(30px) saturate(200%);
-    -webkit-backdrop-filter: blur(30px) saturate(200%);
-    padding: 40px;
-    border-radius: 24px;
-    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4), 
-                0 0 1px rgba(255, 255, 255, 0.2) inset;
-    margin-bottom: 50px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    animation: slideInDown 0.6s ease;
-    position: relative;
-    overflow: hidden;
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-bottom: 40px;
+    border: 1px solid #e2e8f0;
   }
 
-  .search-container::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(102, 126, 234, 0.08) 0%, transparent 70%);
-    animation: rotate 25s linear infinite;
-  }
-
-  @keyframes rotate {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-
-  .search-container::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
-    animation: shimmer 3s infinite;
-  }
-
-  @keyframes shimmer {
-    0% { left: -100%; }
-    100% { left: 100%; }
-  }
-
-  @keyframes slideInDown {
-    from {
-      opacity: 0;
-      transform: translateY(-50px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
+  /* Search Form Styles */
   .search-form {
     display: flex;
     gap: 15px;
     align-items: center;
     flex-wrap: wrap;
     justify-content: center;
-    position: relative;
-    z-index: 1;
   }
 
-  .search-input {
+  /* Search Input Wrapper Styles */
+  .search-input-wrapper {
+    position: relative;
     flex: 1;
     min-width: 300px;
     max-width: 500px;
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    border-radius: 16px;
-    padding: 18px 30px 18px 55px;
-    font-size: 1.05rem;
-    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    background: rgba(255, 255, 255, 0.08);
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .search-input-wrapper i {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #718096;
+    font-size: 1.1rem;
+  }
+
+  /* Search Input Styles */
+  .search-input {
+    width: 100%;
+    border: 2px solid #cbd5e0;
+    border-radius: 6px;
+    padding: 14px 20px 14px 50px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: #f7fafc;
     font-weight: 500;
-    color: #fff;
+    color: #1a202c;
   }
 
   .search-input:hover {
-    border-color: rgba(255, 255, 255, 0.2);
-    transform: translateY(-2px);
-    background: rgba(255, 255, 255, 0.1);
+    border-color: #2d3748;
+    background: #fff;
   }
 
   .search-input:focus {
-    border-color: #a78bfa;
-    box-shadow: 0 10px 35px rgba(167, 139, 250, 0.4), 
-                0 0 0 0.3rem rgba(167, 139, 250, 0.2);
+    border-color: #2d3748;
+    box-shadow: 0 0 0 3px rgba(45, 55, 72, 0.1);
     outline: none;
-    transform: translateY(-3px) scale(1.02);
-    background: rgba(255, 255, 255, 0.12);
+    background: #fff;
   }
 
   .search-input::placeholder {
-    color: rgba(255, 255, 255, 0.5);
+    color: #718096;
     font-weight: 500;
   }
 
+  /* Search Button Styles */
   .search-btn {
-    background: linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%);
+    background: #2d3748;
     color: #fff;
     border: none;
-    border-radius: 16px;
-    padding: 18px 42px;
+    border-radius: 6px;
+    padding: 14px 30px;
     font-weight: 700;
-    font-size: 1.05rem;
-    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.5);
+    font-size: 1rem;
+    transition: all 0.3s ease;
     cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .search-btn::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.3);
-    transform: translate(-50%, -50%);
-    transition: width 0.6s, height 0.6s;
-  }
-
-  .search-btn:hover::before {
-    width: 300px;
-    height: 300px;
   }
 
   .search-btn:hover {
-    transform: translateY(-5px) scale(1.05);
-    box-shadow: 0 15px 40px rgba(139, 92, 246, 0.7);
+    background: #1a202c;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
   }
 
-  .search-btn:active {
-    transform: translateY(-2px) scale(1.02);
-  }
-
-  .page-title {
+  /* Search Results Styles */
+  #searchResults {
+    margin-top: 15px;
+    color: #2d3748;
+    font-weight: 600;
     text-align: center;
-    margin-bottom: 50px;
-    font-size: 4rem;
-    font-weight: 900;
-    color: #fff;
-    font-family: 'Playfair Display', serif;
-    text-shadow: 0 0 60px rgba(167, 139, 250, 0.8);
-    animation: fadeInDown 0.8s ease, glow 3s ease-in-out infinite, titleFloat 4s ease-in-out infinite;
-    letter-spacing: -1px;
-    position: relative;
-    display: inline-block;
-    padding: 10px 30px;
+    font-size: 1.1rem;
   }
 
-  .page-title::before {
-    content: '✨';
-    position: absolute;
-    left: -50px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 2rem;
-    animation: sparkle 2s ease-in-out infinite;
-  }
-
-  .page-title::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 150px;
-    height: 5px;
-    background: linear-gradient(90deg, transparent, #fff, transparent);
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
-    animation: pulseWidth 2s ease-in-out infinite;
-  }
-
-  @keyframes titleFloat {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-  }
-
-  @keyframes sparkle {
-    0%, 100% { opacity: 0.5; transform: translateY(-50%) scale(1); }
-    50% { opacity: 1; transform: translateY(-50%) scale(1.2); }
-  }
-
-  @keyframes pulseWidth {
-    0%, 100% { width: 150px; }
-    50% { width: 200px; }
-  }
-
-  @keyframes fadeInDown {
-    from {
-      opacity: 0;
-      transform: translateY(-50px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes glow {
-    0%, 100% {
-      text-shadow: 0 0 60px rgba(167, 139, 250, 0.8);
-    }
-    50% {
-      text-shadow: 0 0 80px rgba(236, 72, 153, 0.9);
-    }
-  }
-
+  /* Product Card Styles */
   .product-card {
-    border: none;
-    border-radius: 24px;
-    overflow: hidden;
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    transition: all 0.3s ease;
     height: 100%;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-    position: relative;
-    animation: fadeInUp 0.6s ease;
-    transform-style: preserve-3d;
-    perspective: 1000px;
-  }
-
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(30px) scale(0.95);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-  }
-
-  .product-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-    transition: left 0.7s;
-    z-index: 1;
-  }
-
-  .product-card::after {
-    content: '';
-    position: absolute;
-    inset: -2px;
-    background: linear-gradient(135deg, #a78bfa, #ec4899, #8b5cf6, #a78bfa);
-    background-size: 400% 400%;
-    border-radius: 24px;
-    z-index: -1;
-    opacity: 0;
-    transition: opacity 0.5s ease;
-    animation: gradientShift 10s ease infinite;
-  }
-
-  @keyframes gradientShift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-
-  .product-card:hover::before {
-    left: 100%;
-  }
-
-  .product-card:hover::after {
-    opacity: 0.6;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   }
 
   .product-card:hover {
-    transform: translateY(-20px) scale(1.03);
-    box-shadow: 0 30px 70px rgba(139, 92, 246, 0.5), 
-                0 0 1px rgba(255, 255, 255, 0.2) inset;
+    transform: translateY(-8px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    border-color: #2d3748;
   }
 
+  /* Product Image Container Styles */
   .product-image-container {
     position: relative;
     overflow: hidden;
-    height: 300px;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  }
-
-  .product-image-container::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.2) 100%);
-    opacity: 0;
-    transition: opacity 0.4s ease;
-  }
-
-  .product-card:hover .product-image-container::after {
-    opacity: 1;
+    height: 280px;
+    background: #f7fafc;
+    border-radius: 8px 8px 0 0;
   }
 
   .product-card img {
     height: 100%;
     width: 100%;
     object-fit: cover;
-    transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transition: transform 0.4s ease;
   }
 
   .product-card:hover img {
-    transform: scale(1.15) rotate(2deg);
+    transform: scale(1.05);
   }
 
-  .price-tag {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background: linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%);
-    color: #fff;
-    padding: 12px 28px;
-    border-radius: 16px;
-    font-weight: 800;
-    font-size: 1.2rem;
-    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.6);
-    z-index: 2;
-    animation: priceFloat 3s ease-in-out infinite, pricePulse 2s ease-in-out infinite;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(15px);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .price-tag::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
-    animation: priceShine 3s linear infinite;
-  }
-
-  @keyframes priceFloat {
-    0%, 100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-8px);
-    }
-  }
-
-  @keyframes pricePulse {
-    0%, 100% {
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-    }
-    50% {
-      box-shadow: 0 8px 30px rgba(102, 126, 234, 0.6);
-    }
-  }
-
-  @keyframes priceShine {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-
+  /* Category Badge Styles */
   .category-badge {
     display: inline-block;
-    background: rgba(167, 139, 250, 0.15);
-    color: #a78bfa;
-    padding: 10px 20px;
-    border-radius: 12px;
+    background: #edf2f7;
+    color: #2d3748;
+    padding: 8px 16px;
+    border-radius: 6px;
     font-size: 0.9rem;
     font-weight: 700;
+    margin-bottom: 10px;
+    border: 1px solid #cbd5e0;
+  }
+
+  /* Card Title Styles */
+  .card-title {
+    font-weight: 700;
+    color: #1a202c;
+    margin-bottom: 12px;
+    font-size: 1.3rem;
+    line-height: 1.4;
+  }
+
+  /* Rating Badge Styles */
+  .rating-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #fff8dc;
+    color: #1a202c;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-weight: 600;
+    margin-top: 8px;
+    border: 1px solid #ffd700;
+    font-size: 0.95rem;
+  }
+
+  .rating-badge i {
+    color: #ffd700;
+    font-size: 1rem;
+  }
+
+  .rating-count {
+    color: #718096;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-left: 4px;
+  }
+
+  /* Card Body Styles */
+  .card-body {
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card-body h6 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #e53e3e;
+    margin-top: auto;
     margin-bottom: 15px;
-    border: 1px solid rgba(167, 139, 250, 0.3);
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    backdrop-filter: blur(10px);
   }
 
-  .category-badge:hover {
-    background: linear-gradient(135deg, #a78bfa, #8b5cf6);
-    color: #fff;
-    transform: scale(1.05);
-    box-shadow: 0 4px 15px rgba(167, 139, 250, 0.4);
-  }
-
+  /* Product Actions Styles */
   .product-actions {
     display: flex;
-    gap: 12px;
+    gap: 10px;
     margin-top: auto;
-    padding: 15px;
-    background: linear-gradient(180deg, transparent, rgba(102, 126, 234, 0.05));
   }
 
+  /* Button View Styles */
   .btn-view {
     flex: 1;
-    background: linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%);
+    background: #2d3748;
     border: none;
     color: #fff;
-    padding: 14px 12px;
-    border-radius: 12px;
+    padding: 12px 20px;
+    border-radius: 6px;
     font-weight: 700;
-    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
-    position: relative;
-    overflow: hidden;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
     cursor: pointer;
   }
 
-  /* When View button is the only button (for non-authenticated users) */
-  .product-actions .btn-view:only-child {
-    flex: none;
-    width: 100%;
-  }
-
-  .btn-view::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.3);
-    transform: translate(-50%, -50%);
-    transition: width 0.6s, height 0.6s;
-  }
-
-  .btn-view:hover::before {
-    width: 300px;
-    height: 300px;
-  }
-
   .btn-view:hover {
-    transform: translateY(-4px) scale(1.05);
-    box-shadow: 0 10px 30px rgba(139, 92, 246, 0.6);
+    background: #1a202c;
+    transform: translateY(-2px);
     color: #fff;
   }
 
+  /* Button Edit Styles */
   .btn-edit {
-    flex: 1;
-    background: rgba(255, 255, 255, 0.05);
-    border: 2px solid #a78bfa;
-    color: #a78bfa;
-    padding: 14px 12px;
-    border-radius: 12px;
+    flex: 0 0 auto;
+    background: #fff;
+    border: 2px solid #2d3748;
+    color: #2d3748;
+    padding: 12px 20px;
+    border-radius: 6px;
     font-weight: 700;
-    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
     text-decoration: none;
     text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .btn-edit::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%);
-    transition: left 0.4s;
-    z-index: -1;
-  }
-
-  .btn-edit:hover::before {
-    left: 0;
   }
 
   .btn-edit:hover {
+    background: #2d3748;
     color: #fff;
-    transform: translateY(-4px) scale(1.05);
-    box-shadow: 0 10px 30px rgba(167, 139, 250, 0.5);
+    transform: translateY(-2px);
   }
 
+  .btn-edit i {
+    font-size: 1.2rem;
+  }
+
+  /* Button Delete Styles */
   .btn-delete {
     flex: 1;
-    background: rgba(255, 255, 255, 0.05);
-    border: 2px solid #ec4899;
-    color: #ec4899;
-    padding: 14px 12px;
-    border-radius: 12px;
+    background: #fff;
+    border: 2px solid #e53e3e;
+    color: #e53e3e;
+    padding: 12px 20px;
+    border-radius: 6px;
     font-weight: 700;
-    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
     text-decoration: none;
     text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .btn-delete::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, #ec4899 0%, #be185d 100%);
-    transition: left 0.4s;
-    z-index: -1;
-  }
-
-  .btn-delete:hover::before {
-    left: 0;
   }
 
   .btn-delete:hover {
+    background: #e53e3e;
     color: #fff;
-    transform: translateY(-4px) scale(1.05);
-    box-shadow: 0 10px 30px rgba(236, 72, 153, 0.5);
+    transform: translateY(-2px);
   }
 
-  .btn-delete:hover::before {
-    background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+  /* Wishlist Active Button Styles */
+  .btn-wishlist-active {
+    background: rgba(236, 72, 153, 0.1) !important;
+    border-color: #ec4899 !important;
+    color: #ec4899 !important;
   }
 
+  .btn-wishlist-active i {
+    color: #ec4899;
+  }
+
+  /* Add to Cart Button Styles */
+  .btn-add-to-cart {
+    background: linear-gradient(135deg, #ff9f00 0%, #ff6f00 100%) !important;
+    border: 2px solid #ff9f00 !important;
+    color: #fff !important;
+    font-weight: 700;
+  }
+
+  .btn-add-to-cart:hover {
+    background: linear-gradient(135deg, #ff6f00 0%, #ff5722 100%) !important;
+    color: #fff !important;
+  }
+
+  /* Go to Cart Button Styles */
+  .btn-go-to-cart {
+    background: linear-gradient(135deg, #fb641b 0%, #e84118 100%) !important;
+    border: 2px solid #fb641b !important;
+    color: #fff !important;
+    font-weight: 700;
+  }
+
+  .btn-go-to-cart:hover {
+    background: linear-gradient(135deg, #e84118 0%, #c23616 100%) !important;
+    color: #fff !important;
+  }
+
+  /* Modal Styles */
   .modal-content {
-    border-radius: 24px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
-    overflow: hidden;
-    animation: modalZoomIn 0.4s ease;
-    background: rgba(15, 12, 41, 0.95);
-    backdrop-filter: blur(30px);
-  }
-
-  @keyframes modalZoomIn {
-    from {
-      transform: scale(0.8);
-      opacity: 0;
-    }
-    to {
-      transform: scale(1);
-      opacity: 1;
-    }
+    border-radius: 8px;
+    border: none;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
   }
 
   .modal-header {
-    background: linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%);
+    background: #2d3748;
     color: #fff;
-    border-radius: 24px 24px 0 0;
-    padding: 24px 30px;
-    border-bottom: none;
+    border-radius: 8px 8px 0 0;
+    padding: 20px;
   }
 
   .modal-title {
-    font-weight: 900;
-    font-size: 1.6rem;
-    letter-spacing: -0.5px;
-    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #fff;
   }
 
   .modal-body {
-    padding: 35px;
-    background: transparent;
-    color: #fff;
+    padding: 30px;
+    color: #1a202c;
   }
 
   .modal-body img {
-    border-radius: 16px;
-    margin-bottom: 30px;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-    transition: transform 0.4s ease;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  .modal-body img:hover {
-    transform: scale(1.03);
+    border-radius: 8px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   }
 
   .modal-body p {
-    color: rgba(255, 255, 255, 0.9);
+    color: #2d3748;
     font-size: 1.1rem;
+    font-weight: 500;
+    line-height: 1.6;
   }
 
   .modal-body strong {
-    color: #a78bfa;
-  }
-
-  .modal-footer {
-    background: transparent;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 24px 30px;
-  }
-
-  .modal-footer .btn {
+    color: #1a202c;
     font-weight: 700;
-    padding: 12px 30px;
-    border-radius: 12px;
-    transition: all 0.3s ease;
   }
 
-  .modal-footer .btn-secondary {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: #fff;
+  /* Star Rating Styles */
+  .star-rating {
+    display: inline-flex;
+    gap: 8px;
+    font-size: 1.5rem;
+    cursor: pointer;
   }
 
-  .modal-footer .btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  .star-rating i {
+    color: #cbd5e0;
+    transition: all 0.2s ease;
+    cursor: pointer;
   }
 
-  .card-title {
-    font-weight: 800;
-    color: #ffffff;
-    margin-bottom: 15px;
-    font-size: 1.4rem;
-    font-family: 'Playfair Display', serif;
-    transition: all 0.3s ease;
-    letter-spacing: -0.5px;
+  .star-rating i:hover,
+  .star-rating i.hover {
+    color: #ffd700;
+    transform: scale(1.15);
   }
 
-  .product-card:hover .card-title {
-    color: #a78bfa;
-    text-shadow: 0 0 20px rgba(167, 139, 250, 0.6);
+  .star-rating i.fas {
+    color: #ffd700;
   }
 
-  .card-body {
-    padding: 24px;
-  }
-
-  #searchResults {
-    margin-top: 15px;
-    color: #a78bfa;
-    font-weight: 700;
-    text-align: center;
-    font-size: 1.1rem;
-    text-shadow: 0 0 20px rgba(167, 139, 250, 0.5);
-  }
-
-  /* Staggered animation for product cards */
-  .col-lg-4:nth-child(1) .product-card { animation-delay: 0.1s; }
-  .col-lg-4:nth-child(2) .product-card { animation-delay: 0.2s; }
-  .col-lg-4:nth-child(3) .product-card { animation-delay: 0.3s; }
-  .col-lg-4:nth-child(4) .product-card { animation-delay: 0.4s; }
-  .col-lg-4:nth-child(5) .product-card { animation-delay: 0.5s; }
-  .col-lg-4:nth-child(6) .product-card { animation-delay: 0.6s; }
-
-  /* Scrollbar styling */
-  ::-webkit-scrollbar {
-    width: 12px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 10px;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%);
-    border-radius: 10px;
-    border: 2px solid rgba(255, 255, 255, 0.05);
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
-    box-shadow: 0 0 15px rgba(167, 139, 250, 0.6);
-  }
-
-  /* Success message styling */
-  .alert {
-    border-radius: 20px;
-    border: none;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    animation: slideInRight 0.5s ease;
-    backdrop-filter: blur(10px);
-  }
-
-  @keyframes slideInRight {
-    from {
-      transform: translateX(100%);
-      opacity: 0;
-    }
-    to {
-      transform: translateX(0);
-      opacity: 1;
-    }
-  }
-
-  /* Tooltip effect */
-  [data-tooltip] {
-    position: relative;
-  }
-
-  [data-tooltip]::after {
-    content: attr(data-tooltip);
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-5px);
-    background: rgba(0, 0, 0, 0.8);
-    color: #fff;
-    padding: 5px 10px;
+  /* No Products Styles */
+  .no-products {
+    background: #fff;
+    padding: 60px 40px;
     border-radius: 8px;
-    font-size: 0.85rem;
-    white-space: nowrap;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   }
 
-  [data-tooltip]:hover::after {
-    opacity: 1;
-    transform: translateX(-50%) translateY(-10px);
+  .no-products i {
+    font-size: 4rem;
+    color: #cbd5e0;
+    margin-bottom: 20px;
   }
 
-  /* Responsive adjustments */
+  .no-products h3 {
+    color: #1a202c;
+    font-weight: 700;
+    margin-bottom: 15px;
+    font-size: 1.8rem;
+  }
+
+  .no-products p {
+    color: #718096;
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+    font-weight: 500;
+  }
+
+  /* Media Queries */
   @media (max-width: 768px) {
     .page-title {
-      font-size: 2.5rem;
+      font-size: 1.8rem;
     }
 
-    .page-title::before {
-      left: -30px;
-      font-size: 1.5rem;
+    .search-input-wrapper {
+      min-width: 100%;
     }
-
-    .search-input {
-      min-width: 200px;
-    }
-
-    .product-card {
-      margin-bottom: 25px;
-    }
-
-    body::after {
-      animation: floatingDots 30s linear infinite;
-    }
-  }
-
-  /* Category filter badge styling */
-  .category-filter-badge {
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(10px);
-    padding: 10px 25px;
-    border-radius: 50px;
-    color: #667eea;
-    font-weight: 600;
-    font-size: 1.1rem;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    display: inline-block;
-    animation: slideInDown 0.5s ease;
-    transition: all 0.3s ease;
-  }
-
-  .category-filter-badge:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
-  }
-
-  .clear-filter-btn {
-    display: inline-block;
-    margin-left: 15px;
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(10px);
-    padding: 10px 25px;
-    border-radius: 50px;
-    color: #dc3545;
-    font-weight: 600;
-    text-decoration: none;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-    animation: slideInDown 0.5s ease 0.1s both;
-  }
-
-  .clear-filter-btn:hover {
-    background: #dc3545;
-    color: #fff;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
-  }
-
-  @keyframes slideInDown {
-    from {
-      opacity: 0;
-      transform: translateY(-20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  /* Selection styling */
-  ::selection {
-    background: rgba(167, 139, 250, 0.4);
-    color: #fff;
-  }
-
-  ::-moz-selection {
-    background: rgba(167, 139, 250, 0.4);
-    color: #fff;
   }
 </style>
 
 <div class="container mt-4">
   <div class="text-center mb-4">
     <h1 class="page-title">
-      <i class="fas fa-store"></i> {% if category %}{{ category.name }}{% else %}Product Catalog{% endif %}
+      <i class="fas fa-store"></i>
+      {% if category %}{{ category.name }}{% else %}Product Catalog{% endif %}
     </h1>
-    <p style="color: #a78bfa; font-size: 1.2rem; font-weight: 600; margin-top: 10px;">
-      <i class="fas fa-box"></i> Total Products: <span style="color: #ec4899;">{{ total_products }}</span>
+    <p class="product-count">
+      <i class="fas fa-box"></i> Total Products: <span>{{ total_products }}</span>
     </p>
     {% if category %}
     <div style="margin-top: 20px;">
@@ -886,25 +538,18 @@
   </div>
 
   {% if not user.is_authenticated %}
-  <div style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15), rgba(240, 147, 251, 0.15)); backdrop-filter: blur(10px); padding: 20px 35px; border-radius: 25px; margin-bottom: 30px; text-align: center; animation: slideInDown 0.6s ease, infoPulse 3s ease-in-out infinite; border: 2px solid rgba(255, 255, 255, 0.4); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);">
-    <p style="margin: 0; color: #ffffff; font-weight: 600; font-size: 1.1rem; text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);">
-      <i class="fas fa-info-circle" style="animation: iconBounce 2s ease-in-out infinite; display: inline-block;"></i> 
-      <a href="{% url 'signin' %}" style="color: #ffffff; text-decoration: none; font-weight: 700; border-bottom: 2px solid rgba(255, 255, 255, 0.6); transition: all 0.3s ease; padding-bottom: 2px;">Sign in</a> to add products to wishlist and cart 🛒
+  <div class="info-banner">
+    <p>
+      <i class="fas fa-info-circle"></i>
+      <a href="{% url 'signin' %}">Sign in</a> to add products to wishlist and cart 🛒
     </p>
   </div>
-  <style>
-    @keyframes infoPulse {
-      0%, 100% { transform: scale(1); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); }
-      50% { transform: scale(1.02); box-shadow: 0 10px 35px rgba(102, 126, 234, 0.3); }
-    }
-  </style>
   {% elif user.is_authenticated and not user.is_staff and not user.is_superuser %}
-  <div style="background: linear-gradient(135deg, rgba(46, 204, 113, 0.15), rgba(52, 211, 153, 0.15)); backdrop-filter: blur(10px); padding: 20px 35px; border-radius: 25px; margin-bottom: 30px; text-align: center; animation: slideInDown 0.6s ease; border: 2px solid rgba(255, 255, 255, 0.4); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);">
-    <p style="margin: 0; color: #ffffff; font-weight: 600; font-size: 1.1rem; text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);">
-      <i class="fas fa-shopping-bag"></i> 
-      Browse products and add them to your 
-      <a href="{% url 'wishlist' %}" style="color: #ffffff; text-decoration: none; font-weight: 700; border-bottom: 2px solid rgba(255, 255, 255, 0.6); transition: all 0.3s ease; padding-bottom: 2px;">Wishlist</a> or 
-      <a href="{% url 'cart' %}" style="color: #ffffff; text-decoration: none; font-weight: 700; border-bottom: 2px solid rgba(255, 255, 255, 0.6); transition: all 0.3s ease; padding-bottom: 2px;">Cart</a> 🛒
+  <div class="info-banner" style="background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);">
+    <p>
+      <i class="fas fa-shopping-bag"></i>
+      Browse products and add them to your
+      <a href="{% url 'wishlist' %}">Wishlist</a> or <a href="{% url 'cart' %}">Cart</a> 🛒
     </p>
   </div>
   {% endif %}
@@ -912,94 +557,77 @@
   <div class="search-container">
     <form class="search-form" action="search" method="post" id="searchForm">
       {% csrf_token %}
-      <div style="position: relative; flex: 1; min-width: 300px; max-width: 500px;">
-        <i class="fas fa-search" style="position: absolute; left: 22px; top: 50%; transform: translateY(-50%); color: #aaa; font-size: 1.1rem; z-index: 2;"></i>
-        <input 
-          class="search-input" 
-          type="search" 
-          placeholder="Search by Product Name ..." 
-          aria-label="Search" 
-          id="n1" 
-          name="n1"
-          autocomplete="off">
+      <div class="search-input-wrapper">
+        <i class="fas fa-search"></i>
+        <input class="search-input" type="search" placeholder="Search by Product Name..." aria-label="Search" id="n1" name="n1" autocomplete="off">
       </div>
       <button class="search-btn" type="submit">
-        <span style="position: relative; z-index: 1;">
-          <i class="fas fa-search"></i> Search
-        </span>
+        <i class="fas fa-search"></i> Search
       </button>
     </form>
     <div id="searchResults"></div>
   </div>
 
-<div class="row" id="productContainer">
+  <div class="row" id="productContainer">
     {% if products %}
     {% for product in products %}
     <div class="col-lg-4 col-md-6 mb-4">
       <div class="card product-card">
         <div class="product-image-container">
           <img src="{{ product.image.url }}" alt="{{ product.name }}">
-          <!-- <div class="price-tag">
-            <i class="fas fa-tag"></i> ₹{{ product.price }}
-          </div> -->
         </div>
         <div class="card-body">
           <span class="category-badge">
             <i class="fas fa-folder"></i> {{ product.category.name }}
-          </span><br>
-          <h5 class="card-title">
-            {{ product.name }}
-          </h5>
-          <h6 class="card-body">
-           <i class="fas fa-tag"></i> ₹{{ product.price }}
-          </h6>
-         
+          </span>
+          <h5 class="card-title">{{ product.name }}</h5>
           
+          <div class="rating-badge" title="Average rating">
+            {% with avg_rating=product.average_rating %}
+            {% if avg_rating >= 1 %}<i class="fas fa-star"></i>{% else %}<i class="far fa-star"></i>{% endif %}
+            {% if avg_rating >= 2 %}<i class="fas fa-star"></i>{% else %}{% if avg_rating >= 1.5 %}<i class="fas fa-star-half-alt"></i>{% else %}<i class="far fa-star"></i>{% endif %}{% endif %}
+            {% if avg_rating >= 3 %}<i class="fas fa-star"></i>{% else %}{% if avg_rating >= 2.5 %}<i class="fas fa-star-half-alt"></i>{% else %}<i class="far fa-star"></i>{% endif %}{% endif %}
+            {% if avg_rating >= 4 %}<i class="fas fa-star"></i>{% else %}{% if avg_rating >= 3.5 %}<i class="fas fa-star-half-alt"></i>{% else %}<i class="far fa-star"></i>{% endif %}{% endif %}
+            {% if avg_rating >= 5 %}<i class="fas fa-star"></i>{% else %}{% if avg_rating >= 4.5 %}<i class="fas fa-star-half-alt"></i>{% else %}<i class="far fa-star"></i>{% endif %}{% endif %}
+            {% endwith %}
+            <span style="margin-left: 5px; font-weight: 700; color: #1a202c;">{{ product.average_rating }}</span>
+            <span class="rating-count">({{ product.review_count }})</span>
+          </div>
+
+          <h6><i class="fas fa-tag"></i> ₹{{ product.price }}</h6>
+
           <div class="product-actions">
             <button type="button" class="btn btn-view" data-bs-toggle="modal" data-bs-target="#productModal{{ product.id }}">
-              <span style="position: relative; z-index: 1;">
-                <i class="fas fa-eye"></i> View
-              </span>
+              <i class="fas fa-eye"></i> View
             </button>
+
             {% if user.is_authenticated %}
               {% if user.is_staff or user.is_superuser %}
-                <a href="edit/{{product.id}}" class="btn-edit">
-                  <span style="position: relative; z-index: 1;">
-                    <i class="fas fa-edit"></i> Edit
-                  </span>
+                <a href="edit/{{product.id}}" class="btn-edit" title="Edit">
+                  <i class="fas fa-edit"></i>
                 </a>
                 <a href="delete/{{product.id}}" class="btn-delete">
-                  <span style="position: relative; z-index: 1;">
-                    <i class="fas fa-trash"></i> Delete
-                  </span>
+                  <i class="fas fa-trash"></i> Delete
                 </a>
               {% else %}
                 {% if product.id in wishlist_products %}
-                  <a href="{% url 'add_to_wishlist' product.id %}" class="btn-edit" style="background: rgba(236, 72, 153, 0.3); border-color: #ec4899; color: #ffffff;" title="Click to remove from wishlist">
-                    <span style="position: relative; z-index: 1;">
-                      <i class="fas fa-heart-broken"></i> Remove
-                    </span>
-                  </a>
+                <a href="{% url 'add_to_wishlist' product.id %}" class="btn-edit btn-wishlist-active" title="Remove from wishlist">
+                  <i class="fas fa-heart"></i>
+                </a>
                 {% else %}
-                  <a href="{% url 'add_to_wishlist' product.id %}" class="btn-edit" title="Click to add to wishlist">
-                    <span style="position: relative; z-index: 1;">
-                      <i class="fas fa-heart"></i> Wishlist
-                    </span>
-                  </a>
+                <a href="{% url 'add_to_wishlist' product.id %}" class="btn-edit" title="Add to wishlist">
+                  <i class="far fa-heart"></i>
+                </a>
                 {% endif %}
-                
+
                 {% if product.id in cart_products %}
-                  <a href="{% url 'add_to_cart' product.id %}" class="btn-delete" style="background: rgba(46, 204, 113, 0.3); border-color: #2ecc71; color: #ffffff;" title="Click to remove from cart">
-                    <span style="position: relative; z-index: 1;">
-                      <i class="fas fa-times-circle"></i> Remove
-                    </span>
-                  </a>
+                <a href="{% url 'cart' %}" class="btn-delete btn-go-to-cart" title="View cart">
+                  <i class="fas fa-shopping-bag"></i> GO TO CART
+                </a>
                 {% else %}
-                  <a href="{% url 'add_to_cart' product.id %}" class="btn-delete" style="border-color: #2ecc71; color: #2ecc71;" title="Click to add to cart">
-                    <span style="position: relative; z-index: 1;">
-                      <i class="fas fa-shopping-cart"></i> Cart
-                    </span>
-                  </a>
+                <a href="{% url 'add_to_cart' product.id %}" class="btn-delete btn-add-to-cart" title="Add to cart">
+                  <i class="fas fa-shopping-cart"></i> ADD TO CART
+                </a>
                 {% endif %}
               {% endif %}
             {% endif %}
@@ -1021,43 +649,110 @@
           <div class="modal-body">
             <img src="{{ product.image.url }}" class="img-fluid w-100" alt="{{ product.name }}" style="height: 400px; object-fit: cover;">
             <div class="mt-4">
-              <p style="color: #555; font-size: 1.1rem; margin-bottom: 15px;">
-                <i class="fas fa-folder" style="color: #667eea;"></i> 
-                <strong>Category:</strong> {{ product.category.name }}
-              </p>
-              <p style="color: #555; font-size: 1.1rem; margin-bottom: 15px;">
-                <i class="fas fa-align-left" style="color: #667eea;"></i> 
-                <strong>Description:</strong> {{ product.description }}
-              </p>
-              <p style="color: #555; font-size: 1.3rem; margin-bottom: 0;">
-                <i class="fas fa-dollar-sign" style="color: #667eea;"></i> 
-                <strong>Price:</strong> <span style="color: #667eea; font-weight: 700;">₹{{ product.price }}</span>
-              </p>
+              <p><i class="fas fa-folder" style="color: #2d3748;"></i> <strong>Category:</strong> {{ product.category.name }}</p>
+              <p><i class="fas fa-align-left" style="color: #2d3748;"></i> <strong>Description:</strong> {{ product.description }}</p>
+              <p style="font-size: 1.3rem;"><i class="fas fa-rupee-sign" style="color: #2d3748;"></i> <strong>Price:</strong> <span style="color: #e53e3e; font-weight: 700;">₹{{ product.price }}</span></p>
+
+              <div style="margin-top: 18px;">
+                <strong style="color: #1a202c; font-size: 1.1rem;">Average Rating:</strong>
+                <span style="color: #ffd700; font-size: 1.2rem; margin-left: 8px;">
+                  {% with avg_rating=product.average_rating %}
+                  {% if avg_rating >= 1 %}<i class="fas fa-star"></i>{% else %}<i class="far fa-star"></i>{% endif %}
+                  {% if avg_rating >= 2 %}<i class="fas fa-star"></i>{% else %}{% if avg_rating >= 1.5 %}<i class="fas fa-star-half-alt"></i>{% else %}<i class="far fa-star"></i>{% endif %}{% endif %}
+                  {% if avg_rating >= 3 %}<i class="fas fa-star"></i>{% else %}{% if avg_rating >= 2.5 %}<i class="fas fa-star-half-alt"></i>{% else %}<i class="far fa-star"></i>{% endif %}{% endif %}
+                  {% if avg_rating >= 4 %}<i class="fas fa-star"></i>{% else %}{% if avg_rating >= 3.5 %}<i class="fas fa-star-half-alt"></i>{% else %}<i class="far fa-star"></i>{% endif %}{% endif %}
+                  {% if avg_rating >= 5 %}<i class="fas fa-star"></i>{% else %}{% if avg_rating >= 4.5 %}<i class="fas fa-star-half-alt"></i>{% else %}<i class="far fa-star"></i>{% endif %}{% endif %}
+                  {% endwith %}
+                  <span style="color: #1a202c; font-weight: 700; margin-left: 5px;">{{ product.average_rating }}</span>
+                </span>
+                <span style="color: #718096; margin-left: 10px; font-weight: 600;">({{ product.review_count }} reviews)</span>
+              </div>
+
+              <div style="margin-top: 20px;">
+                <h6 style="margin-bottom: 12px; font-weight: 700; color: #1a202c; font-size: 1.1rem;">Recent Reviews</h6>
+                <div style="max-height: 400px; overflow-y: auto;">
+                  {% for r in product.reviews.all|slice:":3" %}
+                  <div style="padding: 12px 0; border-bottom: 1px solid #e2e8f0;">
+                    <div style="margin-bottom: 6px;">
+                      <strong style="color: #1a202c; font-size: 1rem;">{{ r.user.username }}</strong>
+                      <span style="color: #ffd700; margin-left: 10px;">
+                        {% for i in "12345" %}
+                        {% if forloop.counter <= r.rating %}
+                        <i class="fas fa-star"></i>
+                        {% else %}
+                        <i class="far fa-star"></i>
+                        {% endif %}
+                        {% endfor %}
+                      </span>
+                    </div>
+                    <div style="color: #2d3748; font-weight: 500; line-height: 1.5;">{{ r.comment|default:'-' }}</div>
+                    <small style="color: #718096; font-weight: 500;">{{ r.created_at|date:'d M Y H:i' }}</small>
+                    
+                    {% if r.admin_reply %}
+                    <div style="margin-top: 10px; padding: 10px; background: #edf2f7; border-left: 3px solid #2d3748; border-radius: 4px;">
+                      <div style="margin-bottom: 4px;">
+                        <i class="fas fa-reply" style="color: #2d3748;"></i>
+                        <strong style="color: #2d3748; font-size: 0.95rem; margin-left: 5px;">Admin Reply:</strong>
+                      </div>
+                      <div style="color: #1a202c; font-weight: 500; line-height: 1.5; font-size: 0.95rem;">{{ r.admin_reply }}</div>
+                    </div>
+                    {% endif %}
+                  </div>
+                  {% empty %}
+                  <div style="color: #718096; font-weight: 500;">No reviews yet.</div>
+                  {% endfor %}
+                </div>
+              </div>
+
+              {% if user.is_authenticated %}
+              <form method="post" action="{% url 'submit_review' product.id %}" style="margin-top: 20px;" id="reviewForm{{ product.id }}">
+                {% csrf_token %}
+                <div style="margin-bottom: 15px;">
+                  <label style="font-weight: 700; color: #1a202c; display: block; margin-bottom: 10px; font-size: 1rem;">Your Rating:</label>
+                  <div class="star-rating" data-product-id="{{ product.id }}">
+                    <i class="far fa-star" data-rating="1"></i>
+                    <i class="far fa-star" data-rating="2"></i>
+                    <i class="far fa-star" data-rating="3"></i>
+                    <i class="far fa-star" data-rating="4"></i>
+                    <i class="far fa-star" data-rating="5"></i>
+                  </div>
+                  <input type="hidden" name="rating" id="ratingInput{{ product.id }}" value="0" required>
+                  <small class="rating-message" style="color: #e53e3e; display: none; font-weight: 600;">Please select a rating</small>
+                </div>
+                <div style="margin-top: 10px;">
+                  <textarea name="comment" rows="3" placeholder="Write your review..." style="width: 100%; padding: 12px; border-radius: 6px; border: 2px solid #cbd5e0; font-size: 1rem; font-weight: 500; color: #1a202c;"></textarea>
+                </div>
+                <div style="margin-top: 10px; text-align: right;">
+                  <button class="btn btn-view" type="submit" style="font-size: 1rem;">Submit Review</button>
+                </div>
+              </form>
+              {% else %}
+              <div style="margin-top: 15px; color: #718096; font-weight: 600;">Please <a href="{% url 'signin' %}" style="color: #2d3748; font-weight: 700;">sign in</a> to submit a review.</div>
+              {% endif %}
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border-radius: 12px;">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="border-radius: 6px; font-weight: 700; background: #718096; border: none; color: #fff;">
               <i class="fas fa-times"></i> Close
             </button>
           </div>
         </div>
       </div>
     </div>
-
     {% endfor %}
     {% else %}
     <div class="col-12">
-      <div style="background: rgba(255, 255, 255, 0.95); padding: 60px 40px; border-radius: 25px; text-align: center; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15); animation: fadeInUp 0.6s ease;">
-        <i class="fas fa-box-open" style="font-size: 5rem; color: #667eea; margin-bottom: 20px; opacity: 0.5;"></i>
-        <h3 style="color: #333; font-weight: 700; margin-bottom: 15px;">No Products Found</h3>
-        <p style="color: #666; font-size: 1.1rem; margin-bottom: 25px;">
+      <div class="no-products">
+        <i class="fas fa-box-open"></i>
+        <h3>No Products Found</h3>
+        <p>
           {% if category %}
           There are no products available in the "{{ category.name }}" category at the moment.
           {% else %}
           There are no products available at the moment.
           {% endif %}
         </p>
-        <a href="{% url 'home' %}" class="btn btn-custom" style="display: inline-block;">
+        <a href="{% url 'home' %}" class="btn btn-view" style="display: inline-block; font-size: 1rem;">
           <i class="fas fa-arrow-left"></i> Back to Home
         </a>
       </div>
@@ -1074,7 +769,7 @@
   const searchResults = document.getElementById('searchResults');
   let searchTimeout;
 
-  // Function to perform search
+  // Function to perform product search
   function performSearch(searchQuery) {
     const formData = new FormData(searchForm);
     
@@ -1087,53 +782,158 @@
     })
     .then(response => response.text())
     .then(html => {
-      // Extract the product container from the response
       const parser = new DOMParser();
       const doc = parser.parseFromString(html, 'text/html');
       const newProducts = doc.getElementById('productContainer');
       
       if (newProducts) {
         productContainer.innerHTML = newProducts.innerHTML;
+        // Count only div elements with product-card class
+        const productCount = newProducts.querySelectorAll('.product-card').length;
         
-        // Update search results message
-        const productCount = newProducts.children.length;
         if (searchQuery.trim() === '') {
           searchResults.textContent = '';
         } else {
           searchResults.textContent = `Found ${productCount} product${productCount !== 1 ? 's' : ''} matching "${searchQuery}"`;
         }
+        
+        initializeStarRatings();
       }
     })
     .catch(error => {
       console.error('Search error:', error);
       searchResults.textContent = 'Error performing search. Please try again.';
-      searchResults.style.color = '#dc3545';
+      searchResults.style.color = '#e53e3e';
     });
   }
 
-  // Search as you type with debouncing
+  // Event listener for search input
   searchInput.addEventListener('input', function() {
     clearTimeout(searchTimeout);
     const searchQuery = this.value;
     
-    // Show searching indicator
     if (searchQuery.trim() !== '') {
       searchResults.textContent = 'Searching...';
-      searchResults.style.color = '#667eea';
+      searchResults.style.color = '#2d3748';
     }
     
-    // Debounce search to avoid too many requests
     searchTimeout = setTimeout(() => {
       performSearch(searchQuery);
-    }, 300); // Wait 300ms after user stops typing
+    }, 300);
   });
 
-  // Handle form submission
+  // Event listener for search form submission
   searchForm.addEventListener('submit', function(e) {
     e.preventDefault();
     clearTimeout(searchTimeout);
     performSearch(searchInput.value);
   });
-</script>
 
+  // Star Rating System
+  function initializeStarRatings() {
+    const starContainers = document.querySelectorAll('.star-rating');
+    
+    starContainers.forEach(container => {
+      const stars = container.querySelectorAll('i');
+      const productId = container.dataset.productId;
+      const ratingInput = document.getElementById(`ratingInput${productId}`);
+      const form = document.getElementById(`reviewForm${productId}`);
+      const ratingMessage = form ? form.querySelector('.rating-message') : null;
+
+      // Event listener for each star
+      stars.forEach((star, index) => {
+        // Click event to select rating
+        star.addEventListener('click', function() {
+          const rating = this.dataset.rating;
+          const currentRating = ratingInput.value;
+          
+          // Toggle rating if clicking the same star
+          if (currentRating === rating) {
+            ratingInput.value = '0';
+            stars.forEach(s => {
+              s.classList.remove('fas');
+              s.classList.add('far');
+            });
+          } else {
+            ratingInput.value = rating;
+            stars.forEach((s, i) => {
+              if (i < rating) {
+                s.classList.remove('far');
+                s.classList.add('fas');
+              } else {
+                s.classList.remove('fas');
+                s.classList.add('far');
+              }
+            });
+          }
+          
+          // Hide rating message if visible
+          if (ratingMessage) {
+            ratingMessage.style.display = 'none';
+          }
+        });
+
+        // Mouse enter event for hover effect
+        star.addEventListener('mouseenter', function() {
+          const rating = this.dataset.rating;
+          stars.forEach((s, i) => {
+            if (i < rating) {
+              s.classList.add('hover');
+            }
+          });
+        });
+
+        // Mouse leave event to remove hover effect
+        star.addEventListener('mouseleave', function() {
+          stars.forEach(s => {
+            s.classList.remove('hover');
+          });
+        });
+      });
+
+      // Form submission validation
+      if (form) {
+        form.addEventListener('submit', function(e) {
+          if (!ratingInput.value || ratingInput.value === '0') {
+            e.preventDefault();
+            
+            // Show rating message
+            if (ratingMessage) {
+              ratingMessage.style.display = 'block';
+            }
+            
+            // Highlight stars in red
+            stars.forEach(star => {
+              star.style.color = '#e53e3e';
+            });
+            
+            // Reset star color after 1 second
+            setTimeout(() => {
+              stars.forEach(star => {
+                star.style.color = '';
+              });
+            }, 1000);
+          }
+        });
+      }
+    });
+  }
+
+  // Initialize star ratings on page load
+  initializeStarRatings();
+
+  // Mutation observer to reinitialize ratings when products are dynamically added
+  const observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+      if (mutation.addedNodes.length) {
+        initializeStarRatings();
+      }
+    });
+  });
+  
+  observer.observe(productContainer, {
+    childList: true,
+    subtree: true
+  });
+</script>
 {% endblock %}

@@ -12,6 +12,18 @@ class Product(models.Model):
     def __str__(self):
         return self.name
     
+    # Returns average rating (rounded to 2 decimals) for this product
+    @property
+    def average_rating(self):
+        from django.db.models import Avg
+        agg = self.reviews.aggregate(avg=Avg('rating'))
+        return round(agg['avg'] or 0, 2)
+    
+    # Returns total number of reviews for this product
+    @property
+    def review_count(self):
+        return self.reviews.count()
+
 class Category(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
@@ -45,3 +57,18 @@ class Cart(models.Model):
     
     def get_total_price(self):
         return self.quantity * self.product.price
+    
+class Review(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='reviews')
+    rating = models.PositiveSmallIntegerField()
+    comment = models.TextField(blank=True)
+    admin_reply = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'product')
+        ordering = ('-created_at',)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.product.name} ({self.rating})"

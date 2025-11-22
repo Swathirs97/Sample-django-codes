@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
 # Create your views here.
 
 
@@ -45,7 +46,7 @@ def register(request):
     return render(request, 'register.html', context)
 
 def productlist(request):
-    from onlineshoppingapp.models import Wishlist, Cart
+    from onlineshoppingapp.models import Wishlist, Cart, Review
     pdt = Product.objects.all()
     context = {'products': pdt, 'total_products': pdt.count()}
     
@@ -55,6 +56,12 @@ def productlist(request):
         # Get list of product IDs in wishlist and cart
         context['wishlist_products'] = list(Wishlist.objects.filter(user=request.user).values_list('product_id', flat=True))
         context['cart_products'] = list(Cart.objects.filter(user=request.user).values_list('product_id', flat=True))
+    
+    # Include reviews mapping for frontend (latest 3 reviews per product)
+    reviews_map = {}
+    for p in pdt:
+        reviews_map[p.id] = list(p.reviews.all()[:3])
+    context['reviews_map'] = reviews_map
     
     return render(request, 'list.html', context)
 
@@ -194,19 +201,25 @@ def search(request):
     return render(request, 'list.html', context)
 
 def admin_panel(request):
+    from onlineshoppingapp.models import Review
     # Get all products, categories, and users
     products = Product.objects.all()
     categories = Category.objects.all()
     users = User.objects.all()
     total_users = users.count()
     
+    # Get all reviews with related product and user data
+    reviews = Review.objects.select_related('product', 'user').all()
+    
     context = {
         'products': products,
         'categories': categories,
         'users': users,
+        'reviews': reviews,
         'total_products': products.count(),
         'total_categories': categories.count(),
         'total_users': total_users,
+        'total_reviews': reviews.count(),
         'show_login': False
     }
     
@@ -275,7 +288,8 @@ def view_wishlist(request):
     context = {
         'wishlist_items': wishlist_items,
         'wishlist_count': wishlist_items.count(),
-        'cart_count': Cart.objects.filter(user=request.user).count()
+        'cart_count': Cart.objects.filter(user=request.user).count(),
+        'cart_products': list(Cart.objects.filter(user=request.user).values_list('product_id', flat=True))
     }
     return render(request, 'wishlist.html', context)
 
@@ -322,6 +336,43 @@ def view_cart(request):
         'cart_items': cart_items,
         'total_price': total_price,
         'cart_count': cart_items.count(),
-        'wishlist_count': Wishlist.objects.filter(user=request.user).count()
+        'wishlist_count': Wishlist.objects.filter(user=request.user).count(),
+        'wishlist_products': list(Wishlist.objects.filter(user=request.user).values_list('product_id', flat=True))
     }
     return render(request, 'cart.html', context)
+
+@login_required(login_url='signin')
+def submit_review(request, p_id):
+    from onlineshoppingapp.models import Review
+    product = Product.objects.get(id=p_id)
+    if request.method == 'POST':
+        rating = int(request.POST.get('rating', 0))
+        comment = request.POST.get('comment', '').strip()
+        if rating >= 1 and rating <= 5:
+            # update or create review by this user for this product
+            Review.objects.update_or_create(
+                user=request.user,
+                product=product,
+                defaults={'rating': rating, 'comment': comment}
+            )
+    return redirect('list')
+
+def reply_to_review(request, review_id):
+    from onlineshoppingapp.models import Review
+    review = Review.objects.get(id=review_id)
+    if request.method == 'POST':
+        reply = request.POST.get('admin_reply', '').strip()
+        review.admin_reply = reply
+        review.save()
+        return redirect('admin_panel')
+    # If GET, render a tiny form (optional)
+    context = {'review': review}
+    return render(request, 'admin_reply.html', context)
+
+@login_required(login_url='signin')
+@staff_member_required
+def delete_review(request, review_id):
+    from onlineshoppingapp.models import Review
+    review = Review.objects.get(id=review_id)
+    review.delete()
+    return redirect('admin_panel')
