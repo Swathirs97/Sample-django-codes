@@ -28,12 +28,13 @@
 
   /* Welcome Header Styles */
   .welcome-header {
-    background: #2d3748;
-    padding: 40px;
+    background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
+    padding: 50px;
     text-align: center;
-    color: #2c5282;
+    color: #2c2c2c;
     position: relative;
     overflow: hidden;
+    border-bottom: 1px solid #e8e8e8;
   }
 
   .welcome-header::before {
@@ -47,12 +48,16 @@
   }
 
   .welcome-header h1 {
-    font-size: 2rem;
-    font-weight: 600;
+    font-size: 3rem;
+    font-weight: 300;
     margin: 0;
-    text-shadow: 2px 4px 8px rgba(0, 0, 0, 0.3);
+    text-shadow: none;
     position: relative;
     z-index: 1;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    font-family: 'Cormorant Garamond', serif;
+    color: #2c2c2c;
   }
 
   .welcome-header .greeting-icon {
@@ -201,7 +206,7 @@
     <!-- Welcome Header -->
     <div class="welcome-header">
       <span class="greeting-icon">👋</span>
-      <h1 style="color: white;">
+      <h1 style="color: rgb(10, 10, 10);">
         Welcome, 
         {% if fname and lname %}
           {{ fname }} {{ lname }} !

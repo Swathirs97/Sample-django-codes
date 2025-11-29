@@ -343,6 +343,59 @@ def view_cart(request):
     }
     return render(request, 'cart.html', context)
 
+
+@login_required(login_url='signin')
+def buy_now(request, p_id):
+    from onlineshoppingapp.models import Product, Order, OrderItem, Cart
+    product = Product.objects.get(id=p_id)
+    if request.method == 'POST':
+        try:
+            quantity = int(request.POST.get('quantity', 1))
+        except ValueError:
+            quantity = 1
+
+        total = product.price * quantity
+        order = Order.objects.create(user=request.user, total_amount=total)
+        OrderItem.objects.create(order=order, product=product, quantity=quantity, price=product.price)
+
+        # remove from cart if it exists
+        Cart.objects.filter(user=request.user, product=product).delete()
+
+        return redirect('bill', order_id=order.id)
+
+    return redirect('cart')
+
+
+@login_required(login_url='signin')
+def bill(request, order_id):
+    from onlineshoppingapp.models import Order, OrderItem
+    order = Order.objects.get(id=order_id, user=request.user)
+    items = OrderItem.objects.filter(order=order)
+    context = {'order': order, 'items': items}
+    return render(request, 'bill.html', context)
+
+
+@login_required(login_url='signin')
+def checkout(request):
+    from onlineshoppingapp.models import Cart, Order, OrderItem
+    if request.method == 'POST':
+        cart_items = Cart.objects.filter(user=request.user)
+        if not cart_items.exists():
+            return redirect('cart')
+
+        total = sum(item.get_total_price() for item in cart_items)
+        order = Order.objects.create(user=request.user, total_amount=total)
+
+        for item in cart_items:
+            OrderItem.objects.create(order=order, product=item.product, quantity=item.quantity, price=item.product.price)
+
+        # clear cart
+        cart_items.delete()
+
+        return redirect('bill', order_id=order.id)
+
+    return redirect('cart')
+
 @login_required(login_url='signin')
 def submit_review(request, p_id):
     from onlineshoppingapp.models import Review

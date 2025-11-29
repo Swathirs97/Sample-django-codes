@@ -12,36 +12,38 @@
 
   /* Cart Header Styles */
   .cart-header {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 4px;
-    padding: 30px;
-    margin-bottom: 30px;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #e8e8e8;
+    border-radius: 0;
+    padding: 40px 0;
+    margin-bottom: 50px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   }
 
   .cart-header h1 {
-    font-size: 2rem;
-    font-weight: 600;
-    color: #2c5282;
+    font-size: 3rem;
+    font-weight: 300;
+    color: #2c2c2c;
     margin: 0;
-    font-family: 'Playfair Display', serif;
-    letter-spacing: -1px;
-    text-shadow: 0 0 30px rgba(157, 78, 221, 0.5);
+    font-family: 'Cormorant Garamond', serif;
+    letter-spacing: 6px;
+    text-transform: uppercase;
   }
 
   /* Cart Count Badge Styles */
   .cart-count {
-    background: #3a3d42;
-    color: #a8aeb8;
-    padding: 12px 24px;
-    border-radius: 4px;
-    font-weight: 600;
-    font-size: 1rem;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    background: transparent;
+    color: #d4af37;
+    padding: 10px 20px;
+    border-radius: 0;
+    border: 1px solid #d4af37;
+    font-weight: 400;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    font-family: 'Lato', sans-serif;
   }
 
   /* Cart Main Grid Styles */
@@ -61,35 +63,21 @@
   /* Cart Card Styles */
   .cart-card {
     background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 4px;
-    padding: 25px;
+    border: 1px solid #e8e8e8;
+    border-radius: 0;
+    padding: 30px;
     display: flex;
-    gap: 25px;
+    gap: 30px;
     align-items: center;
-    transition: all 0.3s ease;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    transition: all 0.4s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     position: relative;
   }
 
-  .cart-card::before {
-    content: '';
-    position: absolute;
-    inset: -2px;
-    background: #2d3748;
-    border-radius: 4px;
-    z-index: -1;
-    opacity: 0;
-    transition: opacity 0.4s ease;
-  }
-
   .cart-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
-  }
-
-  .cart-card:hover::before {
-    opacity: 1;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    border-color: #d4af37;
   }
 
   /* Cart Image Styles */
@@ -116,25 +104,26 @@
 
   .cart-category {
     display: inline-block;
-    background: rgba(157, 78, 221, 0.15);
-    color: #2c5282;
-    padding: 12px 24px;
-    border-radius: 4px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: none;
-    letter-spacing: -0.5px;
-    margin-bottom: 10px;
-    border: 1px solid #e2e8f0;
+    background: transparent;
+    color: #2c2c2c;
+    padding: 6px 14px;
+    border-radius: 0;
+    font-size: 0.7rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+    border: 1px solid #e8e8e8;
+    font-family: 'Lato', sans-serif;
   }
 
   .cart-details h3 {
-    color: #2c5282;
-    font-weight: 800;
-    font-size: 1.4rem;
-    margin-bottom: 10px;
-    font-family: 'Playfair Display', serif;
-    letter-spacing: -0.5px;
+    color: #2c2c2c;
+    font-weight: 400;
+    font-size: 1.3rem;
+    margin-bottom: 12px;
+    font-family: 'Cormorant Garamond', serif;
+    letter-spacing: 1px;
   }
 
   /* Cart Price Info Styles */
@@ -153,7 +142,7 @@
   .cart-subtotal {
     font-size: 1.6rem;
     font-weight: 600;
-    color: #48bb78;
+    color: var(--accent);
     display: flex;
     align-items: center;
     gap: 5px;
@@ -179,25 +168,24 @@
   }
 
   .quantity-control button {
-    background: #2d3748;
-    color: white;
-    border: none;
+    background: transparent;
+    color: #2c2c2c;
+    border: 1px solid #e8e8e8;
     width: 32px;
     height: 32px;
-    border-radius: 4px;
+    border-radius: 0;
     cursor: pointer;
-    font-weight: 600;
+    font-weight: 300;
     font-size: 1.1rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s ease;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    transition: all 0.4s ease;
   }
 
   .quantity-control button:hover {
-    transform: scale(1.1);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    border-color: #d4af37;
+    color: #d4af37;
   }
 
   .quantity-control input {
@@ -205,99 +193,108 @@
     text-align: center;
     border: none;
     background: transparent;
-    color: #2c5282;
+    color: #000000;
     font-weight: 600;
     font-size: 1.1rem;
   }
 
   .quantity-control button[type="submit"] {
-    background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+    background: #2c2c2c;
+    color: #fafafa;
     width: auto;
-    padding: 0 16px;
-    font-size: 0.85rem;
-    box-shadow: 0 2px 8px rgba(46, 204, 113, 0.3);
+    padding: 0 18px;
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-family: 'Lato', sans-serif;
   }
 
   .quantity-control button[type="submit"]:hover {
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    background: #d4af37;
+    color: #2c2c2c;
   }
 
   /* Remove Item Button Styles */
   .btn-remove-item {
-    background: rgba(236, 72, 153, 0.15);
-    border: 1px solid #e2e8f0;
-    color: #ec4899;
-    padding: 12px 24px;
-    border-radius: 4px;
+    background: transparent;
+    border: 1px solid #8b8b8b;
+    color: #8b8b8b;
+    padding: 10px 20px;
+    border-radius: 0;
     text-decoration: none;
-    font-weight: 600;
-    font-size: 0.9rem;
-    transition: all 0.3s ease;
+    font-weight: 400;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: all 0.4s ease;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
     gap: 6px;
+    font-family: 'Lato', sans-serif;
   }
 
   .btn-remove-item:hover {
-    background: linear-gradient(135deg, #ec4899 0%, #be185d 100%);
-    color: #2c5282;
+    border-color: #2c2c2c;
+    color: #2c2c2c;
   }
 
   /* Wishlist Item Button Styles */
   .btn-wishlist-item {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    color: #4a5568;
-    padding: 12px 24px;
-    border-radius: 4px;
+    background: transparent;
+    border: 1px solid #d4af37;
+    color: #d4af37;
+    padding: 10px 20px;
+    border-radius: 0;
     text-decoration: none;
-    font-weight: 600;
-    font-size: 0.9rem;
-    transition: all 0.3s ease;
+    font-weight: 400;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: all 0.4s ease;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
     gap: 6px;
+    font-family: 'Lato', sans-serif;
   }
 
   .btn-wishlist-item:hover {
-    background: #ffffff;
-    color: #2c5282;
+    background: #000000;
+    color: #ffffff;
     transform: scale(1.05);
-    border-color: #4a5568;
   }
 
   .btn-wishlist-filled {
-    background: rgba(236, 72, 153, 0.15);
-    border: 1px solid #ec4899;
-    color: #ec4899;
+    background: rgba(220,38,38,0.1);
+    border: 2px solid #dc2626;
+    color: #dc2626;
   }
 
   .btn-wishlist-filled i {
-    color: #ec4899;
+    color: #dc2626;
   }
 
   .btn-wishlist-filled:hover {
-    background: rgba(236, 72, 153, 0.25);
-    border-color: #ec4899;
-    color: #ec4899;
+    background: rgba(220,38,38,0.2);
+    border-color: #dc2626;
+    color: #dc2626;
   }
 
   /* Cart Summary Styles */
   .cart-summary {
     background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 4px;
+    border: 2px solid #000000;
+    border-radius: 8px;
     padding: 30px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
     position: sticky;
     top: 100px;
     height: fit-content;
   }
 
   .cart-summary h2 {
-    color: #2c5282;
+    color: #000000;
     font-weight: 600;
     font-size: 1.8rem;
     margin-bottom: 25px;
@@ -332,42 +329,48 @@
 
   /* Summary Total Styles */
   .summary-total {
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(5, 150, 105, 0.15));
-    border: 1px solid #e2e8f0;
-    padding: 20px;
-    border-radius: 4px;
-    margin-top: 20px;
+    background: #fafafa;
+    border: 1px solid #e8e8e8;
+    border-left: 3px solid #d4af37;
+    padding: 25px;
+    border-radius: 0;
+    margin-top: 25px;
   }
 
   .summary-total .summary-label {
-    font-size: 1.2rem;
-    color: #2c5282;
+    font-size: 1.1rem;
+    color: #2c2c2c;
+    font-weight: 300;
+    letter-spacing: 1px;
   }
 
   .summary-total .summary-value {
-    font-size: 1.75rem;
-    color: #48bb78;
+    font-size: 1.8rem;
+    color: #d4af37;
+    font-weight: 400;
   }
 
   /* Checkout Button Styles */
   .btn-checkout {
     width: 100%;
-    background: #48bb78;
-    color: white;
-    padding: 18px;
-    border-radius: 4px;
+    background: transparent;
+    color: #2c2c2c;
+    padding: 20px;
+    border-radius: 0;
     text-decoration: none;
-    font-weight: 800;
-    font-size: 1.2rem;
-    transition: all 0.3s ease;
+    font-weight: 400;
+    font-size: 1rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    transition: all 0.4s ease;
     display: block;
     text-align: center;
-    border: none;
+    border: 2px solid #2c2c2c;
     cursor: pointer;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
-    margin-top: 25px;
+    margin-top: 30px;
     position: relative;
     overflow: hidden;
+    font-family: 'Lato', sans-serif;
   }
 
   .btn-checkout::before {
@@ -390,7 +393,8 @@
 
   .btn-checkout:hover {
     transform: translateY(-5px);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 8px 24px rgba(220,38,38,0.4);
+    background: #b91c1c;
     color: white;
   }
 
@@ -408,7 +412,7 @@
   }
 
   .continue-shopping a:hover {
-    color: #48bb78;
+    color: var(--accent);
     text-decoration: underline;
   }
 
@@ -416,25 +420,21 @@
   .empty-cart {
     text-align: center;
     background: #ffffff;
-    border: 1px solid #e2e8f0;
-    padding: 12px 24px;
-    border-radius: 4px;
-    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+    border: 2px solid #e5e5e5;
+    padding: 60px 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   }
 
   .empty-cart i {
     font-size: 6rem;
-    background: #48bb78;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    opacity: 1;
+    color: #666666;
     margin-bottom: 25px;
     display: block;
   }
 
   .empty-cart h3 {
-    color: #2c5282;
+    color: #000000;
     font-size: 1.75rem;
     font-weight: 800;
     margin-bottom: 15px;
@@ -442,28 +442,29 @@
   }
 
   .empty-cart p {
-    color: #4a5568;
+    color: #666666;
     font-size: 1.1rem;
     margin-bottom: 30px;
   }
 
   .empty-cart .btn {
-    background: #2d3748;
-    color: #2c5282;
-    padding: 12px 24px;
-    border-radius: 4px;
+    background: #dc2626;
+    color: #ffffff;
+    padding: 14px 28px;
+    border-radius: 8px;
     font-weight: 600;
     text-decoration: none;
     display: inline-block;
-    transition: all 0.4s ease;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
     border: none;
     font-size: 1.1rem;
   }
 
   .empty-cart .btn:hover {
     transform: translateY(-5px);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 8px 24px rgba(220, 38, 38, 0.4);
+    background: #b91c1c;
   }
 
   /* Media Queries */
@@ -564,6 +565,8 @@
           </a>
           {% endif %}
 
+          <!-- Buy Now intentionally removed from cart (available on product listing) -->
+
           <!-- Remove Button -->
           <a href="{% url 'remove_from_cart' item.product.id %}" class="btn-remove-item" title="Remove from cart">
             <i class="fas fa-trash-alt"></i> Remove
@@ -601,12 +604,15 @@
         </div>
       </div>
 
-      <!-- Checkout Button -->
-      <button class="btn-checkout">
-        <span style="position: relative; z-index: 1;">
-          <i class="fas fa-lock"></i> Proceed to Checkout
-        </span>
-      </button>
+      <!-- Checkout Button (creates order for all cart items) -->
+      <form method="post" action="{% url 'checkout' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn-checkout">
+          <span style="position: relative; z-index: 1;">
+            <i class="fas fa-lock"></i> Proceed to Checkout
+          </span>
+        </button>
+      </form>
 
       <!-- Continue Shopping Link -->
       <div class="continue-shopping">

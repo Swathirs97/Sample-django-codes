@@ -5,151 +5,86 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Shopping App</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    /* Body Styles */
-    body {
-      background: #f8f9fa;
-      font-family: 'Inter', sans-serif;
-      color: #333;
+    /* Global theme variables for elegant jewelry store */
+    :root{
+      --bg: #fafafa;             /* page background - soft white */
+      --surface: #1a1a1a;        /* cards, nav - charcoal */
+      --muted: #8b8b8b;          /* secondary text - warm gray */
+      --text: #2c2c2c;           /* primary text - dark charcoal */
+      --accent: #d4af37;         /* single accent - elegant gold */
+      --accent-dark: #b8941f;    /* darker gold */
+      --border: #e8e8e8;         /* subtle border */
+      --radius: 2px;             /* minimal radius for elegance */
     }
 
-    /* Navbar Styles */
+    /* Base */
+    body {
+      background: var(--bg);
+      font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+      color: var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      letter-spacing: 0.3px;
+      line-height: 1.7;
+    }
+
+    /* Navbar */
     .navbar {
       background: #ffffff;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      padding: 1rem 2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      padding: 1.5rem 2.5rem;
       position: sticky;
       top: 0;
       z-index: 1000;
+      border-bottom: 1px solid var(--border);
     }
 
-    .navbar-brand {
-      color: #2d3748;
-      font-weight: 700;
-      font-size: 1.5rem;
-    }
+    .navbar-brand { color: var(--text); font-weight:400; font-size:2rem; letter-spacing: 2px; text-transform: uppercase; }
+    .navbar-brand:hover{ color: var(--accent); }
 
-    .navbar-brand:hover {
-      color: #1a202c;
-    }
+    .nav-link{ color: var(--text); font-weight:300; margin:0 1.2rem; padding:0.6rem 0; letter-spacing: 1px; font-size: 1.05rem; transition:all 0.3s ease; border-bottom: 2px solid transparent; }
+    .nav-link:hover, .nav-link.active{ color: var(--accent); border-bottom-color: var(--accent); }
 
-    .nav-link {
-      color: #4a5568;
-      font-weight: 500;
-      margin: 0 0.5rem;
-      padding: 0.5rem 1rem;
-      border-radius: 6px;
-      transition: all 0.3s;
-    }
+    /* Badge */
+    .badge-count{ position:absolute; top:-6px; right:-10px; background:var(--accent); color:#2c2c2c; border-radius:50%; width:22px; height:22px; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:600; box-shadow: 0 0 8px rgba(212,175,55,0.4); }
 
-    .nav-link:hover,
-    .nav-link.active {
-      color: #2d3748;
-      background: #f1f5f9;
-    }
+    /* Layout spacing */
+    .container{ margin-top:34px; margin-bottom:34px; }
 
-    .badge-count {
-      position: absolute;
-      top: -5px;
-      right: -10px;
-      background: #ef4444;
-      color: white;
-      border-radius: 50%;
-      width: 20px;
-      height: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.7rem;
-      font-weight: 600;
-    }
+    /* Cards */
+    .card{ border:1px solid var(--border); border-radius:0; overflow:hidden; transition:all .4s ease; background:#ffffff; box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
+    .card:hover{ transform:translateY(-8px); box-shadow:0 8px 40px rgba(212,175,55,0.15); border-color: var(--accent); }
+    .card-img-top{ height:320px; object-fit:cover; transition:transform .5s ease; filter: brightness(0.95); }
+    .card:hover .card-img-top{ transform:scale(1.05); filter: brightness(1); }
+    .card-body{ padding:2rem 1.5rem; text-align: center; }
+    .card-title{ font-weight:400; color:var(--text); font-size:1.4rem; margin-bottom:0.8rem; letter-spacing: 1px; }
+    .card-text{ color:var(--muted); font-size:0.95rem; line-height:1.7; font-family: 'Lato', sans-serif; }
 
-    /* Container Styles */
-    .container {
-      margin-top: 40px;
-      margin-bottom: 40px;
-    }
+    /* Unified button style (apply via classes used across templates) */
+    .btn-custom{ display:inline-flex; align-items:center; justify-content:center; gap:10px; padding:14px 40px; border-radius:0; font-weight:400; letter-spacing:2px; text-transform:uppercase; text-decoration:none; border:2px solid var(--accent); cursor:pointer; background:transparent; color:var(--accent); transition:all 0.4s ease; font-size:0.85rem; }
+    .btn-custom:hover{ background:var(--accent); color:#2c2c2c; box-shadow:0 4px 20px rgba(212,175,55,0.3); }
 
-    /* Card Styles */
-    .card {
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
-      overflow: hidden;
-      transition: all 0.3s ease;
-      background: #fff;
-      height: 100%;
-    }
+    /* Headings */
+    h1{ color:var(--text); font-weight:300; margin-bottom:1.5rem; letter-spacing:3px; font-size:3rem; }
+    h2{ color:var(--text); font-weight:300; margin-bottom:2rem; letter-spacing:2px; text-transform:uppercase; font-size:1.8rem; }
+    .lead{ color:var(--muted); font-weight:300; font-size:1.2rem; letter-spacing:0.5px; }
 
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    }
+    /* Hero Section */
+    .hero-section{ padding:100px 0 80px; text-align:center; background:linear-gradient(to bottom, #ffffff 0%, #fafafa 100%); }
+    .hero-divider{ width:80px; height:1px; background:var(--accent); margin:30px auto; }
+    .hero-title{ font-size:4rem; font-weight:300; letter-spacing:6px; margin-bottom:20px; line-height:1.2; }
+    .hero-subtitle{ font-size:1.1rem; color:var(--muted); font-weight:300; letter-spacing:2px; text-transform:uppercase; margin-bottom:40px; font-family:'Lato',sans-serif; }
 
-    .card-img-top {
-      height: 240px;
-      object-fit: cover;
-      transition: transform 0.3s;
-    }
+    /* Section Styles */
+    .section{ padding:80px 0; }
+    .section-title{ text-align:center; font-size:2.5rem; font-weight:300; letter-spacing:4px; margin-bottom:60px; text-transform:uppercase; position:relative; }
+    .section-title:after{ content:''; display:block; width:60px; height:1px; background:var(--accent); margin:25px auto 0; }
 
-    .card:hover .card-img-top {
-      transform: scale(1.05);
-    }
-
-    .card-body {
-      padding: 1.5rem;
-    }
-
-    .card-title {
-      font-weight: 600;
-      color: #2d3748;
-      font-size: 1.25rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .card-text {
-      color: #718096;
-      font-size: 0.95rem;
-      line-height: 1.6;
-    }
-
-    /* Custom Button Styles */
-    .btn-custom {
-      background: #2d3748;
-      color: white;
-      padding: 12px 24px;
-      border: none;
-      border-radius: 6px;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      text-decoration: none;
-      display: inline-block;
-    }
-
-    .btn-custom:hover {
-      background: #1a202c;
-      transform: translateY(-2px);
-      color: white;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
-
-    /* Heading Styles */
-    h1 {
-      color: #2d3748;
-      font-weight: 700;
-      margin-bottom: 1rem;
-    }
-
-    h2 {
-      color: #2d3748;
-      font-weight: 600;
-      margin-bottom: 2rem;
-    }
-
-    .lead {
-      color: #64748b;
-    }
+    /* Container Adjustments */
+    .container{ max-width:1400px; }
   </style>
 </head>
 <body>
@@ -246,18 +181,20 @@
   </nav>
 
   {% block content %}
-  <!-- Main Container -->
-  <div class="container">
-    <!-- Hero Section -->
-    <div class="text-center mb-5">
-      <h1 class="display-4">Shop Smart, Live Better</h1>
-      <p class="lead">Discover amazing products across all categories</p>
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <div class="container">
+      <p class="hero-subtitle">Luxury Collection</p>
+      <h1 class="hero-title">Timeless Elegance</h1>
+      <div class="hero-divider"></div>
+      <p class="lead" style="max-width: 650px; margin: 0 auto;">Discover our curated selection of premium products,<br>crafted with exceptional attention to detail</p>
     </div>
+  </div>
 
-    <!-- Categories Section -->
-    <h2>
-      <i class="fas fa-th-large me-2"></i>Featured Collections
-    </h2>
+  <!-- Categories Section -->
+  <div class="section">
+    <div class="container">
+      <h2 class="section-title">Featured Collections</h2>
 
     <div class="row">
       {% for category in categories %}
@@ -287,6 +224,7 @@
         </div>
       </div>
       {% endfor %}
+      </div>
     </div>
   </div>
   {% endblock %}
