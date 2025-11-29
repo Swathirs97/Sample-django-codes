@@ -14,16 +14,22 @@
 
   /* Auth Card Styles */
   .auth-card {
-    max-width: 550px;
+    max-width: 580px;
     width: 100%;
     background: #ffffff;
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border-radius: 4px;
-    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.2), 0 0 1px rgba(255, 255, 255, 0.5) inset;
+    border-radius: 0;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
     overflow: hidden;
     position: relative;
-    border: 1px solid #e2e8f0;
+    border: 1px solid #e8e8e8;
+    transition: all 0.4s ease;
+  }
+
+  .auth-card:hover {
+    box-shadow: 0 8px 40px rgba(212, 175, 55, 0.12);
+    border-color: #d4af37;
   }
 
   /* Auth Card Header Styles */
@@ -48,50 +54,61 @@
   }
 
   .auth-card-header h3 {
-    font-size: 2rem;
+    font-size: 2.2rem;
     font-weight: 300;
     letter-spacing: 4px;
     text-transform: uppercase;
     font-family: 'Cormorant Garamond', serif;
     margin: 0;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    text-shadow: none;
     position: relative;
     z-index: 1;
   }
 
   .auth-card-header p {
-    margin: 10px 0 0 0;
-    opacity: 1;
+    margin: 15px 0 0 0;
+    opacity: 0.85;
     position: relative;
     z-index: 1;
+    font-size: 1.05rem;
+    font-family: 'Lato', sans-serif;
+    letter-spacing: 0.5px;
   }
 
   .auth-card-header i {
     display: inline-block;
+    font-size: 2rem;
+    color: #d4af37;
+    margin-right: 10px;
   }
 
   /* Auth Card Body Styles */
   .auth-card-body {
-    padding: 12px 24px;
+    padding: 40px 45px;
   }
 
   /* Auth Form Styles */
   .auth-form label {
-    font-weight: 600;
-    color: #555;
-    margin-bottom: 8px;
-    font-size: 0.95rem;
+    font-weight: 400;
+    color: #2c2c2c;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-family: 'Lato', sans-serif;
+    display: block;
   }
 
   .auth-form input {
     border: none;
-    border-bottom: 1px solid #e8e8e8;
+    border-bottom: 2px solid #e8e8e8;
     border-radius: 0;
-    padding: 14px 0;
-    font-size: 1rem;
+    padding: 16px 0;
+    font-size: 1.05rem;
     transition: all 0.4s ease;
     background: transparent;
     font-family: 'Lato', sans-serif;
+    width: 100%;
   }
 
   .auth-form input:hover {
@@ -100,19 +117,24 @@
 
   .auth-form input:focus {
     border-bottom-color: #d4af37;
-    box-shadow: none;
+    box-shadow: 0 2px 0 0 rgba(212, 175, 55, 0.1);
     outline: none;
+    transform: translateY(-1px);
   }
 
   .auth-form p {
     position: relative;
+    margin-bottom: 25px;
   }
 
   .auth-form .helptext {
-    font-size: 0.85rem;
-    color: #666;
-    margin-top: 5px;
+    font-size: 0.8rem;
+    color: #8b8b8b;
+    margin-top: 8px;
     display: block;
+    font-family: 'Lato', sans-serif;
+    line-height: 1.5;
+    font-style: italic;
   }
 
   .auth-form ul {
@@ -122,17 +144,21 @@
   }
 
   .auth-form ul li {
-    color: #dc3545;
-    font-size: 0.9rem;
-    margin: 5px 0;
-    padding-left: 20px;
+    color: #dc2626;
+    font-size: 0.85rem;
+    margin: 8px 0;
+    padding: 8px 12px 8px 32px;
     position: relative;
+    background: rgba(220, 38, 38, 0.05);
+    border-left: 3px solid #dc2626;
+    font-family: 'Lato', sans-serif;
   }
 
   .auth-form ul li::before {
     content: "⚠";
     position: absolute;
-    left: 0;
+    left: 10px;
+    font-size: 1rem;
   }
 
   /* Auth Footer Styles */
@@ -145,10 +171,23 @@
     border-image-slice: 1;
   }
 
+  .auth-footer {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 25px;
+    border-top: 1px solid #e8e8e8;
+  }
+
+  .auth-footer p {
+    font-family: 'Lato', sans-serif;
+    color: #8b8b8b;
+    font-size: 0.95rem;
+  }
+
   .auth-footer a {
-    color: #2c5282;
+    color: #d4af37;
     text-decoration: none;
-    font-weight: 600;
+    font-weight: 500;
     transition: all 0.3s ease;
     position: relative;
     padding-bottom: 2px;
@@ -161,12 +200,12 @@
     left: 0;
     width: 0;
     height: 2px;
-    background: linear-gradient(90deg, #2c5282, #2c5282);
+    background: #d4af37;
     transition: width 0.3s ease;
   }
 
   .auth-footer a:hover {
-    color: #2c5282;
+    color: #b8941f;
     transform: translateX(3px);
   }
 
@@ -179,10 +218,10 @@
   <div class="auth-card">
     <!-- Auth Card Header -->
     <div class="auth-card-header">
-      <h3 style="color: white;">
+      <h3 style="color: rgb(0, 0, 0);">
         <i class="fas fa-user-plus"></i> Create Account
       </h3>
-      <p style="color: white;">Join us and start shopping today!</p>
+      <p style="color: rgb(0, 0, 0);">Join us and start shopping today!</p>
     </div>
 
     <!-- Auth Card Body -->
