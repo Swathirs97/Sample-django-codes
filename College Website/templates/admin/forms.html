@@ -1,0 +1,711 @@
+{% extends 'admin/base_admin.html' %}
+{% load static %}
+
+{% block page_title %}Forms{% endblock %}
+
+{% block extra_css %}
+<style>
+    .modern-form-card {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        border: none;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .modern-form-card:hover {
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+    }
+
+    .modern-card-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 24px 28px;
+        border: none;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .modern-card-header::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    }
+
+    .modern-card-header h5 {
+        color: white;
+        font-weight: 600;
+        font-size: 1.25rem;
+        margin: 0;
+        position: relative;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .modern-card-header h5 i {
+        font-size: 1.4rem;
+    }
+
+    .modern-card-body {
+        padding: 32px 28px;
+        background: white;
+    }
+
+    .modern-form-label {
+        font-weight: 600;
+        color: #334155;
+        font-size: 0.9rem;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .modern-form-label i {
+        color: #94a3b8;
+        font-size: 0.85rem;
+    }
+
+    .modern-form-control {
+        border: 2px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 12px 16px;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+        background: #f8fafc;
+    }
+
+    .modern-form-control:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        background: white;
+    }
+
+    .modern-form-control::placeholder {
+        color: #94a3b8;
+    }
+
+    .modern-select {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23667eea' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 12px center;
+        background-size: 12px;
+        appearance: none;
+    }
+
+    .modern-btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        padding: 14px 32px;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 1rem;
+        color: white;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .modern-btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.5);
+        background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        color: white;
+    }
+
+    .modern-btn-secondary {
+        background: #f1f5f9;
+        border: 2px solid #e2e8f0;
+        padding: 12px 28px;
+        border-radius: 10px;
+        font-weight: 600;
+        color: #475569;
+        transition: all 0.3s ease;
+    }
+
+    .modern-btn-secondary:hover {
+        background: #e2e8f0;
+        border-color: #cbd5e1;
+        color: #1e293b;
+    }
+
+    .file-input-wrapper {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+        width: 100%;
+    }
+
+    .file-input-label {
+        background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+        border: 2px dashed #cbd5e1;
+        border-radius: 10px;
+        padding: 24px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: block;
+    }
+
+    .file-input-label:hover {
+        border-color: #667eea;
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    }
+
+    .file-input-label i {
+        font-size: 2rem;
+        color: #667eea;
+        display: block;
+        margin-bottom: 8px;
+    }
+
+    .file-input-label span {
+        color: #64748b;
+        font-size: 0.9rem;
+    }
+
+    .file-input-wrapper input[type="file"] {
+        position: absolute;
+        left: -9999px;
+    }
+
+    .form-divider {
+        height: 1px;
+        background: linear-gradient(90deg, transparent, #e2e8f0, transparent);
+        margin: 24px 0;
+    }
+
+    .input-icon-wrapper {
+        position: relative;
+    }
+
+    .input-icon-wrapper i {
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #94a3b8;
+        z-index: 1;
+    }
+
+    .input-icon-wrapper .modern-form-control {
+        padding-left: 45px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row g-4 mb-4">
+    <!-- Add Department Form -->
+    <div class="col-lg-6">
+        <div class="modern-form-card">
+            <div class="modern-card-header">
+                <h5><i class="fas fa-building"></i> Add New Department</h5>
+            </div>
+            <div class="modern-card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-4">
+                        <label class="modern-form-label">
+                            <i class="fas fa-university"></i> Department Name
+                        </label>
+                        <div class="input-icon-wrapper">
+                            <i class="fas fa-graduation-cap"></i>
+                            <input type="text" name="name" class="form-control modern-form-control" placeholder="e.g., Computer Science & Engineering" required>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="modern-form-label">
+                            <i class="fas fa-user-tie"></i> Head of Department
+                        </label>
+                        <div class="input-icon-wrapper">
+                            <i class="fas fa-id-badge"></i>
+                            <input type="text" name="head" class="form-control modern-form-control" placeholder="Dr. John Doe" required>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="modern-form-label">
+                            <i class="fas fa-image"></i> Head Photo
+                        </label>
+                        <div class="file-input-wrapper">
+                            <label for="head_photo" class="file-input-label">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <span>Click to upload photo or drag and drop</span>
+                                <small class="d-block mt-2 text-muted">PNG, JPG or JPEG (Max 5MB)</small>
+                            </label>
+                            <input type="file" name="head_photo" id="head_photo" accept="image/*">
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="modern-form-label">
+                            <i class="fas fa-calendar-alt"></i> Established Year
+                        </label>
+                        <div class="input-icon-wrapper">
+                            <i class="fas fa-calendar"></i>
+                            <input type="number" name="established_year" class="form-control modern-form-control" placeholder="2020" required>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="modern-form-label">
+                            <i class="fas fa-align-left"></i> Description
+                        </label>
+                        <textarea name="description" class="form-control modern-form-control" rows="4" placeholder="Enter department description, vision, and mission" required></textarea>
+                    </div>
+                    <div class="form-divider"></div>
+                    <button type="submit" name="add_department" class="modern-btn-primary">
+                        <i class="fas fa-plus-circle"></i> Add Department
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Faculty Form -->
+    <div class="col-lg-6">
+        <div class="modern-form-card">
+            <div class="modern-card-header" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                <h5><i class="fas fa-chalkboard-teacher"></i> Add New Faculty</h5>
+            </div>
+            <div class="modern-card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-4">
+                        <label class="modern-form-label">
+                            <i class="fas fa-user"></i> Full Name
+                        </label>
+                        <div class="input-icon-wrapper">
+                            <i class="fas fa-user-circle"></i>
+                            <input type="text" name="faculty_name" class="form-control modern-form-control" placeholder="Dr. Jane Smith" required>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="modern-form-label">
+                            <i class="fas fa-briefcase"></i> Designation
+                        </label>
+                        <div class="input-icon-wrapper">
+                            <i class="fas fa-user-tie"></i>
+                            <input type="text" name="designation" class="form-control modern-form-control" placeholder="Professor / Associate Professor" required>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="modern-form-label">
+                            <i class="fas fa-building"></i> Department
+                        </label>
+                        <select name="department" class="form-select modern-form-control modern-select" required>
+                            <option value="">Select Department</option>
+                            {% for dept in departments %}
+                            <option value="{{ dept.id }}">{{ dept.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <label class="modern-form-label">
+                                <i class="fas fa-envelope"></i> Email
+                            </label>
+                            <div class="input-icon-wrapper">
+                                <i class="fas fa-at"></i>
+                                <input type="email" name="email" class="form-control modern-form-control" placeholder="faculty@college.edu" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label class="modern-form-label">
+                                <i class="fas fa-phone"></i> Phone
+                            </label>
+                            <div class="input-icon-wrapper">
+                                <i class="fas fa-mobile-alt"></i>
+                                <input type="tel" name="phone" class="form-control modern-form-control" placeholder="+1 234 567 890" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="modern-form-label">
+                            <i class="fas fa-camera"></i> Photo
+                        </label>
+                        <div class="file-input-wrapper">
+                            <label for="faculty_photo" class="file-input-label">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <span>Upload faculty photo</span>
+                                <small class="d-block mt-2 text-muted">Professional photo recommended</small>
+                            </label>
+                            <input type="file" name="photo" id="faculty_photo" accept="image/*">
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="modern-form-label">
+                            <i class="fas fa-award"></i> Qualifications
+                        </label>
+                        <textarea name="qualifications" class="form-control modern-form-control" rows="3" placeholder="Ph.D. in Computer Science, M.Tech., B.Tech." required></textarea>
+                    </div>
+                    <div class="form-divider"></div>
+                    <button type="submit" name="add_faculty" class="modern-btn-primary" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); box-shadow: 0 4px 12px rgba(245, 87, 108, 0.4);">
+                        <i class="fas fa-user-plus"></i> Add Faculty
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <!-- Add Event Form -->
+    <div class="col-lg-6">
+        <div class="modern-form-card">
+            <div class="modern-card-header" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                <h5><i class="fas fa-calendar-star"></i> Add New Event</h5>
+            </div>
+            <div class="modern-card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-4">
+                        <label class="modern-form-label">
+                            <i class="fas fa-heading"></i> Event Title
+                        </label>
+                        <div class="input-icon-wrapper">
+                            <i class="fas fa-star"></i>
+                            <input type="text" name="event_title" class="form-control modern-form-control" placeholder="Annual Tech Fest 2024" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <label class="modern-form-label">
+                                <i class="fas fa-calendar-day"></i> Date
+                            </label>
+                            <div class="input-icon-wrapper">
+                                <i class="fas fa-calendar"></i>
+                                <input type="date" name="event_date" class="form-control modern-form-control" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label class="modern-form-label">
+                                <i class="fas fa-clock"></i> Time
+                            </label>
+                            <div class="input-icon-wrapper">
+                                <i class="fas fa-stopwatch"></i>
+                                <input type="time" name="event_time" class="form-control modern-form-control" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="modern-form-label">
+                            <i class="fas fa-map-marker-alt"></i> Venue
+                        </label>
+                        <div class="input-icon-wrapper">
+                            <i class="fas fa-location-arrow"></i>
+                            <input type="text" name="venue" class="form-control modern-form-control" placeholder="Main Auditorium / Conference Hall" required>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="modern-form-label">
+                            <i class="fas fa-image"></i> Event Photo
+                        </label>
+                        <div class="file-input-wrapper">
+                            <label for="event_photo" class="file-input-label">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <span>Upload event banner or poster</span>
+                                <small class="d-block mt-2 text-muted">High resolution image preferred</small>
+                            </label>
+                            <input type="file" name="event_photo" id="event_photo" accept="image/*">
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="modern-form-label">
+                            <i class="fas fa-align-left"></i> Description
+                        </label>
+                        <textarea name="event_description" class="form-control modern-form-control" rows="4" placeholder="Describe the event, agenda, and special highlights..." required></textarea>
+                    </div>
+                    <div class="form-divider"></div>
+                    <button type="submit" name="add_event" class="modern-btn-primary" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); box-shadow: 0 4px 12px rgba(79, 172, 254, 0.4);">
+                        <i class="fas fa-calendar-check"></i> Add Event
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Placement Record Form -->
+    <div class="col-lg-6">
+        <div class="modern-form-card">
+            <div class="modern-card-header" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                <h5><i class="fas fa-briefcase"></i> Add Placement Record</h5>
+            </div>
+            <div class="modern-card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-4">
+                        <label class="modern-form-label">
+                            <i class="fas fa-user-graduate"></i> Student Name
+                        </label>
+                        <div class="input-icon-wrapper">
+                            <i class="fas fa-user"></i>
+                            <input type="text" name="student_name" class="form-control modern-form-control" placeholder="John Doe" required>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="modern-form-label">
+                            <i class="fas fa-building"></i> Company Name
+                        </label>
+                        <div class="input-icon-wrapper">
+                            <i class="fas fa-industry"></i>
+                            <input type="text" name="company_name" class="form-control modern-form-control" placeholder="Google Inc. / Microsoft" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <label class="modern-form-label">
+                                <i class="fas fa-dollar-sign"></i> Package
+                            </label>
+                            <div class="input-icon-wrapper">
+                                <i class="fas fa-money-bill-wave"></i>
+                                <input type="text" name="package" class="form-control modern-form-control" placeholder="12 LPA" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label class="modern-form-label">
+                                <i class="fas fa-calendar"></i> Year
+                            </label>
+                            <div class="input-icon-wrapper">
+                                <i class="fas fa-calendar-day"></i>
+                                <input type="number" name="year" class="form-control modern-form-control" placeholder="2024" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="modern-form-label">
+                            <i class="fas fa-building"></i> Department
+                        </label>
+                        <select name="placement_department" class="form-select modern-form-control modern-select" required>
+                            <option value="">Select Department</option>
+                            {% for dept in departments %}
+                            <option value="{{ dept.id }}">{{ dept.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label class="modern-form-label">
+                            <i class="fas fa-camera"></i> Student Photo
+                        </label>
+                        <div class="file-input-wrapper">
+                            <label for="student_photo" class="file-input-label">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <span>Upload student photo</span>
+                                <small class="d-block mt-2 text-muted">Professional photograph preferred</small>
+                            </label>
+                            <input type="file" name="student_photo" id="student_photo" accept="image/*">
+                        </div>
+                    </div>
+                    <div class="form-divider"></div>
+                    <button type="submit" name="add_placement" class="modern-btn-primary" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); box-shadow: 0 4px 12px rgba(250, 112, 154, 0.4);">
+                        <i class="fas fa-check-circle"></i> Add Placement
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <!-- Advanced Form Elements -->
+    <div class="col-12">
+        <div class="modern-form-card">
+            <div class="modern-card-header" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">
+                <h5><i class="fas fa-sliders-h"></i> Advanced Form Elements & Components</h5>
+            </div>
+            <div class="modern-card-body">
+                <form>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <h6 class="mb-4" style="color: #475569; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+                                <i class="fas fa-keyboard" style="color: #667eea;"></i> Input Fields
+                            </h6>
+                            <div class="mb-4">
+                                <label class="modern-form-label">
+                                    <i class="fas fa-font"></i> Text Input
+                                </label>
+                                <div class="input-icon-wrapper">
+                                    <i class="fas fa-pen"></i>
+                                    <input type="text" class="form-control modern-form-control" placeholder="Enter text here">
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label class="modern-form-label">
+                                    <i class="fas fa-envelope"></i> Email Input
+                                </label>
+                                <div class="input-icon-wrapper">
+                                    <i class="fas fa-at"></i>
+                                    <input type="email" class="form-control modern-form-control" placeholder="email@example.com">
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label class="modern-form-label">
+                                    <i class="fas fa-list"></i> Select Option
+                                </label>
+                                <select class="form-select modern-form-control modern-select">
+                                    <option>Choose an option</option>
+                                    <option>Option 1</option>
+                                    <option>Option 2</option>
+                                    <option>Option 3</option>
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label class="modern-form-label">
+                                    <i class="fas fa-calendar"></i> Date Picker
+                                </label>
+                                <div class="input-icon-wrapper">
+                                    <i class="fas fa-calendar-day"></i>
+                                    <input type="date" class="form-control modern-form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <h6 class="mb-4" style="color: #475569; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+                                <i class="fas fa-check-square" style="color: #667eea;"></i> Selection Controls
+                            </h6>
+                            <div class="mb-4">
+                                <label class="modern-form-label">
+                                    <i class="fas fa-check-double"></i> Checkboxes
+                                </label>
+                                <div class="form-check mb-3" style="padding-left: 0;">
+                                    <label style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: #f8fafc; border-radius: 8px; cursor: pointer; transition: all 0.3s;">
+                                        <input class="form-check-input" type="checkbox" id="check1" style="width: 20px; height: 20px; margin: 0; cursor: pointer; border: 2px solid #cbd5e1;">
+                                        <span style="color: #475569;">Enable notifications</span>
+                                    </label>
+                                </div>
+                                <div class="form-check mb-3" style="padding-left: 0;">
+                                    <label style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: #f8fafc; border-radius: 8px; cursor: pointer; transition: all 0.3s;">
+                                        <input class="form-check-input" type="checkbox" id="check2" style="width: 20px; height: 20px; margin: 0; cursor: pointer; border: 2px solid #cbd5e1;">
+                                        <span style="color: #475569;">Subscribe to newsletter</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="modern-form-label">
+                                    <i class="fas fa-dot-circle"></i> Radio Buttons
+                                </label>
+                                <div class="form-check mb-3" style="padding-left: 0;">
+                                    <label style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: #f8fafc; border-radius: 8px; cursor: pointer; transition: all 0.3s;">
+                                        <input class="form-check-input" type="radio" name="radio" id="radio1" checked style="width: 20px; height: 20px; margin: 0; cursor: pointer;">
+                                        <span style="color: #475569;">Male</span>
+                                    </label>
+                                </div>
+                                <div class="form-check mb-3" style="padding-left: 0;">
+                                    <label style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: #f8fafc; border-radius: 8px; cursor: pointer; transition: all 0.3s;">
+                                        <input class="form-check-input" type="radio" name="radio" id="radio2" style="width: 20px; height: 20px; margin: 0; cursor: pointer;">
+                                        <span style="color: #475569;">Female</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-divider"></div>
+
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="mb-4">
+                                <label class="modern-form-label">
+                                    <i class="fas fa-align-left"></i> Textarea
+                                </label>
+                                <textarea class="form-control modern-form-control" rows="4" placeholder="Enter your message or description here..."></textarea>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="mb-4">
+                                <label class="modern-form-label">
+                                    <i class="fas fa-upload"></i> File Upload
+                                </label>
+                                <div class="file-input-wrapper">
+                                    <label for="example_file" class="file-input-label" style="padding: 40px 20px;">
+                                        <i class="fas fa-cloud-upload-alt"></i>
+                                        <span>Upload File</span>
+                                    </label>
+                                    <input type="file" id="example_file">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-divider"></div>
+
+                    <div class="d-flex gap-3 flex-wrap">
+                        <button type="submit" class="modern-btn-primary" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%); box-shadow: 0 4px 12px rgba(48, 207, 208, 0.4);">
+                            <i class="fas fa-paper-plane"></i> Submit Form
+                        </button>
+                        <button type="reset" class="modern-btn-secondary">
+                            <i class="fas fa-redo"></i> Reset Form
+                        </button>
+                        <button type="button" class="modern-btn-secondary">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if messages %}
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    {% for message in messages %}
+    <div class="toast show" role="alert" style="min-width: 300px; border-radius: 12px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15); border: none; overflow: hidden;">
+        <div class="toast-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; padding: 16px 20px;">
+            <i class="fas fa-{% if message.tags == 'success' %}check-circle{% elif message.tags == 'error' %}exclamation-circle{% elif message.tags == 'warning' %}exclamation-triangle{% else %}info-circle{% endif %} me-2" style="color: white;"></i>
+            <strong class="me-auto text-white" style="font-weight: 600;">{{ message.tags|title }}</strong>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+        </div>
+        <div class="toast-body" style="padding: 16px 20px; font-size: 0.95rem; color: #475569;">{{ message }}</div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<script>
+// File input preview functionality
+document.querySelectorAll('.file-input-wrapper input[type="file"]').forEach(input => {
+    input.addEventListener('change', function(e) {
+        const label = this.previousElementSibling;
+        const fileName = e.target.files[0]?.name;
+        if (fileName) {
+            label.innerHTML = `
+                <i class="fas fa-check-circle" style="color: #10B981;"></i>
+                <span style="color: #10B981; font-weight: 600;">${fileName}</span>
+                <small class="d-block mt-2 text-muted">Click to change file</small>
+            `;
+        }
+    });
+});
+
+// Form animation on focus
+document.querySelectorAll('.modern-form-control').forEach(input => {
+    input.addEventListener('focus', function() {
+        this.closest('.mb-4, .mb-3')?.classList.add('focused');
+    });
+    input.addEventListener('blur', function() {
+        this.closest('.mb-4, .mb-3')?.classList.remove('focused');
+    });
+});
+
+// Checkbox and radio button hover effects
+document.querySelectorAll('.form-check label').forEach(label => {
+    label.addEventListener('mouseenter', function() {
+        this.style.background = '#e2e8f0';
+        this.style.transform = 'translateX(4px)';
+    });
+    label.addEventListener('mouseleave', function() {
+        this.style.background = '#f8fafc';
+        this.style.transform = 'translateX(0)';
+    });
+});
+</script>
+{% endblock %}

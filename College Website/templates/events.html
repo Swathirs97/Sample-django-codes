@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}Events - EduCollege{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header-section bg-primary text-white py-5">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <!-- <ol class="breadcrumb bg-transparent mb-3">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-white"><i class="fas fa-home me-2"></i>Home</a></li>
+                <li class="breadcrumb-item active text-white" aria-current="page">Events</li>
+            </ol> -->
+        </nav>
+        <h1 class="display-4 fw-bold mb-3">Campus Events</h1>
+        <p class="lead mb-0">Stay updated with our latest activities</p>
+    </div>
+</section>
+
+<!-- Events Content -->
+<section class="events-section py-5">
+    <div class="container">
+        {% if events %}
+            <div class="row g-4">
+                {% for event in events %}
+                <div class="col-lg-6">
+                    <div class="event-card bg-white rounded-4 shadow-sm overflow-hidden hover-lift h-100">
+                        <div class="row g-0">
+                            <div class="col-md-4 d-flex align-items-center justify-content-center bg-primary text-white p-4">
+                                <div class="text-center">
+                                    <h2 class="display-4 fw-bold mb-0">{{ event.date|date:"d" }}</h2>
+                                    <p class="mb-0 fw-semibold">{{ event.date|date:"M Y" }}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="p-4">
+                                    {% if event.photo %}
+                                    <div class="event-photo mb-3">
+                                        <img src="{{ event.photo.url }}" alt="{{ event.title }}" class="img-fluid rounded-3">
+                                    </div>
+                                    {% endif %}
+                                    <h4 class="fw-bold mb-3">{{ event.title }}</h4>
+                                    <div class="event-details mb-2">
+                                        <div class="detail-item d-flex align-items-center mb-2">
+                                            <i class="fas fa-clock text-primary me-2"></i>
+                                            <span class="text-muted">{{ event.time }}</span>
+                                        </div>
+                                        <div class="detail-item d-flex align-items-center mb-2">
+                                            <i class="fas fa-map-marker-alt text-primary me-2"></i>
+                                            <span class="text-muted">{{ event.venue }}</span>
+                                        </div>
+                                    </div>
+                                    <p class="text-muted mb-0">{{ event.description|truncatewords:20 }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info text-center py-5">
+                <i class="fas fa-calendar-times fa-3x mb-3"></i>
+                <h4>No Events Scheduled</h4>
+                <p class="mb-0">No events have been scheduled yet. Please check back later.</p>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,116 @@
+{% extends 'admin/base_admin.html' %}
+{% load static %}
+
+{% block page_title %}Add Faculty{% endblock %}
+
+{% block content %}
+<div class="page-header mb-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h2 class="mb-1">Add New Faculty</h2>
+            <p class="text-muted mb-0">Fill in the faculty details below</p>
+        </div>
+        <a href="{% url 'admin_dashboard' %}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-1"></i>
+            Back to Dashboard
+        </a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Faculty Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="e.g., Dr. John Doe" required>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="designation" class="form-label">Designation <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="designation" name="designation" placeholder="e.g., Professor" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="department" class="form-label">Department <span class="text-danger">*</span></label>
+                                <select class="form-control" id="department" name="department" required>
+                                    <option value="">Select Department</option>
+                                    {% for dept in departments %}
+                                    <option value="{{ dept.id }}">{{ dept.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="e.g., john.doe@college.edu" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">Phone <span class="text-danger">*</span></label>
+                                <input type="tel" class="form-control" id="phone" name="phone" placeholder="e.g., 9876543210" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="qualifications" class="form-label">Qualifications <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="qualifications" name="qualifications" rows="3" placeholder="e.g., Ph.D. in Computer Science, M.Tech, B.Tech" required></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="specialization" class="form-label">Specialization</label>
+                        <input type="text" class="form-control" id="specialization" name="specialization" placeholder="e.g., Artificial Intelligence, Machine Learning">
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="experience" class="form-label">Experience (Years)</label>
+                                <input type="number" class="form-control" id="experience" name="experience" placeholder="e.g., 10" min="0">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="joining_date" class="form-label">Joining Date</label>
+                                <input type="date" class="form-control" id="joining_date" name="joining_date">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label for="photo" class="form-label">Faculty Photo</label>
+                        <div class="upload-box text-center p-4 border rounded">
+                            <i class="fas fa-user-circle fa-3x text-muted mb-2"></i>
+                            <p class="text-muted mb-2">Click to upload photo</p>
+                            <input type="file" class="form-control" id="photo" name="photo" accept="image/*">
+                            <small class="text-muted">Recommended: 400x400px, Max 2MB</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end gap-2 mt-4">
+                <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary">Cancel</a>
+                <button type="submit" class="btn-add">
+                    <i class="fas fa-save me-1"></i>
+                    Save Faculty
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

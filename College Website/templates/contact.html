@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact Us - EduCollege{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header-section bg-primary text-white py-5">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <!-- <ol class="breadcrumb bg-transparent mb-3">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-white"><i class="fas fa-home me-2"></i>Home</a></li>
+                <li class="breadcrumb-item active text-white" aria-current="page">Contact</li>
+            </ol> -->
+        </nav>
+        <h1 class="display-4 fw-bold mb-3">Contact Us</h1>
+        <p class="lead mb-0">We'd love to hear from you</p>
+    </div>
+</section>
+
+<!-- Contact Content -->
+<section class="contact-section py-5">
+    <div class="container">
+        <div class="row g-4">
+            <!-- Contact Info Cards -->
+            <div class="col-lg-4">
+                <div class="contact-info-wrapper">
+                    <div class="contact-info-card bg-white rounded-4 shadow-sm p-4 mb-4 hover-lift">
+                        <div class="icon-box bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                            <i class="fas fa-map-marker-alt fa-2x"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">Address</h4>
+                        <p class="text-muted mb-0">C</p>
+                    </div>
+
+                    <div class="contact-info-card bg-white rounded-4 shadow-sm p-4 mb-4 hover-lift">
+                        <div class="icon-box bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                            <i class="fas fa-phone fa-2x"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">Phone</h4>
+                        <p class="text-muted mb-1"><strong>Main Office:</strong><br>+91 1111 1111 11</p>
+                        <p class="text-muted mb-0"><strong>Admissions:</strong><br>+91 1111 1111 12</p>
+                    </div>
+
+                    <div class="contact-info-card bg-white rounded-4 shadow-sm p-4 mb-4 hover-lift">
+                        <div class="icon-box bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                            <i class="fas fa-envelope fa-2x"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">Email</h4>
+                        <p class="text-muted mb-1"><strong>General:</strong><br>c@gmail.com</p>
+                        <p class="text-muted mb-0"><strong>Admissions:</strong><br>admissions@gmail.com</p>
+                    </div>
+
+                    <div class="contact-info-card bg-white rounded-4 shadow-sm p-4 hover-lift">
+                        <div class="icon-box bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                            <i class="fas fa-clock fa-2x"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">Office Hours</h4>
+                        <p class="text-muted mb-1"><strong>Monday - Saturday:</strong><br>9:00 AM - 4:00 PM</p>
+                        <p class="text-muted mb-0"><strong>Sunday:</strong><br>Closed</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Form -->
+            <div class="col-lg-8">
+                <div class="contact-form-wrapper bg-white rounded-4 shadow-sm p-4">
+                    <h2 class="fw-bold mb-4">Send Us a Message</h2>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label fw-semibold">Name *</label>
+                                    <input type="text" class="form-control form-control-lg" id="name" name="name" placeholder="Your Name" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="email" class="form-label fw-semibold">Email *</label>
+                                    <input type="email" class="form-control form-control-lg" id="email" name="email" placeholder="your@email.com" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="phone" class="form-label fw-semibold">Phone</label>
+                                    <input type="tel" class="form-control form-control-lg" id="phone" name="phone" placeholder="+91 1234567890">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="subject" class="form-label fw-semibold">Subject *</label>
+                                    <input type="text" class="form-control form-control-lg" id="subject" name="subject" placeholder="Subject" required>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label for="message" class="form-label fw-semibold">Message *</label>
+                                    <textarea class="form-control" id="message" name="message" rows="6" placeholder="Write your message here..." required></textarea>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary btn-lg rounded-pill px-5">
+                                    <i class="fas fa-paper-plane me-2"></i>Send Message
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Map Section -->
+<section class="map-section py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-4">
+            <h2 class="display-6 fw-bold mb-3">Find Us on Map</h2>
+            <p class="text-muted">Visit our campus and explore our facilities</p>
+        </div>
+        <div class="map-wrapper bg-white rounded-4 shadow-sm p-3">
+            <div class="map-placeholder bg-light rounded-3 d-flex align-items-center justify-content-center" style="height: 400px;">
+                <div class="text-center">
+                    <i class="fas fa-map-marked-alt fa-4x text-primary mb-3"></i>
+                    <p class="text-muted">Map integration can be added here using Google Maps or other mapping services.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

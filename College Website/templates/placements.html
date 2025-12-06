@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+
+{% block title %}Placements - EduCollege{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header-section bg-primary text-white py-5">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <!-- <ol class="breadcrumb bg-transparent mb-3">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-white"><i class="fas fa-home me-2"></i>Home</a></li>
+                <li class="breadcrumb-item active text-white" aria-current="page">Placements</li>
+            </ol> -->
+        </nav>
+        <h1 class="display-4 fw-bold mb-3">Placements</h1>
+        <p class="lead mb-0">Building careers, shaping futures</p>
+    </div>
+</section>
+
+<!-- Placement Statistics -->
+<section class="placement-section py-5">
+    <div class="container">
+        {% if placement_stats %}
+            <div class="row g-4">
+                {% for stat in placement_stats %}
+                <div class="col-lg-4 col-md-6">
+                    <div class="placement-card bg-white rounded-4 shadow-sm p-4 text-center h-100 hover-lift">
+                        <div class="placement-header mb-3">
+                            <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 150px; height: 150px;">
+                                <i class="fas fa-chart-line fa-4x"></i>
+                            </div>
+                        </div>
+                        <h4 class="fw-bold mb-2">Year {{ stat.year }}</h4>
+                        <p class="text-primary fw-semibold mb-3">{{ stat.placement_percentage }}% Placement Rate</p>
+                        <div class="placement-details text-start">
+                            <div class="detail-item mb-2">
+                                <i class="fas fa-users text-primary me-2"></i>
+                                <small class="text-muted">Total Students: {{ stat.total_students }}</small>
+                            </div>
+                            <div class="detail-item mb-2">
+                                <i class="fas fa-user-check text-primary me-2"></i>
+                                <small class="text-muted">Placed: {{ stat.students_placed }}</small>
+                            </div>
+                            <div class="detail-item mb-2">
+                                <i class="fas fa-trophy text-primary me-2"></i>
+                                <small class="text-muted">Highest: {{ stat.highest_package }}</small>
+                            </div>
+                            <div class="detail-item mb-0">
+                                <i class="fas fa-coins text-primary me-2"></i>
+                                <small class="text-muted">Average: {{ stat.average_package }}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info text-center py-5">
+                <i class="fas fa-info-circle fa-3x mb-3"></i>
+                <h4>No Placement Statistics</h4>
+                <p class="mb-0">No placement statistics have been added yet. Please check back later.</p>
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Placement Records -->
+<section class="placement-records-section py-5 bg-light">
+    <div class="container">
+        {% if placement_records %}
+            <div class="section-header text-center mb-5">
+                <h2 class="display-6 fw-bold mb-3">Recent Placements</h2>
+                <p class="text-muted">Celebrating our students' success stories</p>
+            </div>
+            <div class="row g-4">
+                {% for record in placement_records %}
+                <div class="col-lg-4 col-md-6">
+                    <div class="placement-card bg-white rounded-4 shadow-sm p-4 text-center h-100 hover-lift">
+                        {% if record.photo %}
+                        <div class="student-photo mb-3">
+                            <img src="{{ record.photo.url }}" alt="{{ record.student_name }}" class="img-fluid rounded-circle" style="width: 150px; height: 150px; object-fit: cover; border: 4px solid #e9ecef;">
+                        </div>
+                        {% else %}
+                        <div class="student-photo-placeholder mb-3">
+                            <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 150px; height: 150px;">
+                                <i class="fas fa-user fa-4x"></i>
+                            </div>
+                        </div>
+                        {% endif %}
+                        <h4 class="fw-bold mb-2">{{ record.student_name }}</h4>
+                        <p class="text-primary fw-semibold mb-3">{{ record.company_name }}</p>
+                        <div class="placement-details text-start">
+                            <div class="detail-item mb-2">
+                                <i class="fas fa-building text-primary me-2"></i>
+                                <small class="text-muted">{{ record.department.name }}</small>
+                            </div>
+                            <div class="detail-item mb-2">
+                                <i class="fas fa-money-bill-wave text-primary me-2"></i>
+                                <small class="text-muted">Package: {{ record.package }}</small>
+                            </div>
+                            <div class="detail-item mb-0">
+                                <i class="fas fa-calendar text-primary me-2"></i>
+                                <small class="text-muted">Year: {{ record.year }}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info text-center py-5">
+                <i class="fas fa-info-circle fa-3x mb-3"></i>
+                <h4>No Placement Records</h4>
+                <p class="mb-0">No placement records have been added yet. Please check back later.</p>
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Recruiting Companies -->
+<section class="recruiting-companies-section py-5">
+    <div class="container">
+        {% if recruiting_companies %}
+            <div class="section-header text-center mb-5">
+                <h2 class="display-6 fw-bold mb-3">Our Recruiting Partners</h2>
+                <p class="text-muted">Trusted by leading companies worldwide</p>
+            </div>
+            <div class="row g-4">
+                {% for company in recruiting_companies %}
+                <div class="col-lg-4 col-md-6">
+                    <div class="company-card bg-white rounded-4 shadow-sm p-4 text-center h-100 hover-lift">
+                        {% if company.logo_url %}
+                        <div class="company-logo mb-3">
+                            <img src="{{ company.logo_url }}" alt="{{ company.name }}" class="img-fluid" style="max-height: 100px;">
+                        </div>
+                        {% else %}
+                        <div class="company-logo-placeholder mb-3">
+                            <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center mx-auto" style="width: 100px; height: 100px;">
+                                <i class="fas fa-building fa-3x"></i>
+                            </div>
+                        </div>
+                        {% endif %}
+                        <h5 class="fw-bold mb-0">{{ company.name }}</h5>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info text-center py-5">
+                <i class="fas fa-info-circle fa-3x mb-3"></i>
+                <h4>No Recruiting Companies</h4>
+                <p class="mb-0">No recruiting companies have been added yet. Please check back later.</p>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}Faculty - EduCollege{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header-section bg-primary text-white py-5">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <!-- <ol class="breadcrumb bg-transparent mb-3">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-white"><i class="fas fa-home me-2"></i>Home</a></li>
+                <li class="breadcrumb-item active text-white" aria-current="page">Faculty</li>
+            </ol> -->
+        </nav>
+        <h1 class="display-4 fw-bold mb-3">Our Faculty</h1>
+        <p class="lead mb-0">Meet our distinguished educators</p>
+    </div>
+</section>
+
+<!-- Faculty Content -->
+<section class="faculty-section py-5">
+    <div class="container">
+        {% if faculty %}
+            <div class="row g-4">
+                {% for member in faculty %}
+                <div class="col-lg-4 col-md-6">
+                    <div class="faculty-card bg-white rounded-4 shadow-sm p-4 text-center h-100 hover-lift">
+                        {% if member.photo %}
+                        <div class="faculty-photo mb-3">
+                            <img src="{{ member.photo.url }}" alt="{{ member.name }}" class="img-fluid rounded-circle" style="width: 150px; height: 150px; object-fit: cover; border: 4px solid #e9ecef;">
+                        </div>
+                        {% else %}
+                        <div class="faculty-photo-placeholder mb-3">
+                            <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 150px; height: 150px;">
+                                <i class="fas fa-user fa-4x"></i>
+                            </div>
+                        </div>
+                        {% endif %}
+                        <h4 class="fw-bold mb-2">{{ member.name }}</h4>
+                        <p class="text-primary fw-semibold mb-3">{{ member.designation }}</p>
+                        <div class="faculty-details text-start">
+                            <div class="detail-item mb-2">
+                                <i class="fas fa-building text-primary me-2"></i>
+                                <small class="text-muted">{{ member.department.name }}</small>
+                            </div>
+                            <div class="detail-item mb-2">
+                                <i class="fas fa-graduation-cap text-primary me-2"></i>
+                                <small class="text-muted">{{ member.qualifications }}</small>
+                            </div>
+                            <div class="detail-item mb-2">
+                                <i class="fas fa-envelope text-primary me-2"></i>
+                                <small class="text-muted">{{ member.email }}</small>
+                            </div>
+                            <div class="detail-item mb-0">
+                                <i class="fas fa-phone text-primary me-2"></i>
+                                <small class="text-muted">{{ member.phone }}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info text-center py-5">
+                <i class="fas fa-info-circle fa-3x mb-3"></i>
+                <h4>No Faculty Members</h4>
+                <p class="mb-0">No faculty members have been added yet. Please check back later.</p>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

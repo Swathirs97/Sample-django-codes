@@ -1,0 +1,324 @@
+{% extends 'admin/base_admin.html' %}
+{% load static %}
+
+{% block page_title %}Charts{% endblock %}
+
+{% block extra_css %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="row g-4 mb-4">
+    <!-- Line Chart -->
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Placement Trends Over Years</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="lineChart" height="80"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pie Chart -->
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Department Distribution</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="pieChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <!-- Bar Chart -->
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Applications by Program</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="barChart" height="100"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Doughnut Chart -->
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Application Status</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="doughnutChart" height="100"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <!-- Area Chart -->
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Faculty Growth Over Time</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="areaChart" height="80"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Polar Area Chart -->
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Event Categories</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="polarChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <!-- Radar Chart -->
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Department Performance</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="radarChart" height="100"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mixed Chart -->
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Revenue vs Expenses</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="mixedChart" height="100"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Line Chart
+    const lineCtx = document.getElementById('lineChart').getContext('2d');
+    new Chart(lineCtx, {
+        type: 'line',
+        data: {
+            labels: {{ placement_years|safe }},
+            datasets: [{
+                label: 'Students Placed',
+                data: {{ placement_counts|safe }},
+                borderColor: '#4F46E5',
+                backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                tension: 0.4,
+                fill: true
+            }, {
+                label: 'Total Students',
+                data: {{ total_student_counts|safe }},
+                borderColor: '#10B981',
+                backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                tension: 0.4,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'top' }
+            }
+        }
+    });
+
+    // Pie Chart
+    const pieCtx = document.getElementById('pieChart').getContext('2d');
+    new Chart(pieCtx, {
+        type: 'pie',
+        data: {
+            labels: {{ department_names|safe }},
+            datasets: [{
+                data: {{ department_counts|safe }},
+                backgroundColor: [
+                    '#4F46E5', '#10B981', '#F59E0B', '#EF4444',
+                    '#3B82F6', '#8B5CF6', '#EC4899', '#14B8A6'
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'bottom' }
+            }
+        }
+    });
+
+    // Bar Chart
+    const barCtx = document.getElementById('barChart').getContext('2d');
+    new Chart(barCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Undergraduate', 'Postgraduate', 'Diploma'],
+            datasets: [{
+                label: 'Applications',
+                data: [150, 85, 45],
+                backgroundColor: ['#4F46E5', '#10B981', '#F59E0B']
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false }
+            }
+        }
+    });
+
+    // Doughnut Chart
+    const doughnutCtx = document.getElementById('doughnutChart').getContext('2d');
+    new Chart(doughnutCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Pending', 'Under Review', 'Approved', 'Rejected'],
+            datasets: [{
+                data: [45, 30, 120, 15],
+                backgroundColor: ['#F59E0B', '#3B82F6', '#10B981', '#EF4444']
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'bottom' }
+            }
+        }
+    });
+
+    // Area Chart
+    const areaCtx = document.getElementById('areaChart').getContext('2d');
+    new Chart(areaCtx, {
+        type: 'line',
+        data: {
+            labels: ['2019', '2020', '2021', '2022', '2023', '2024'],
+            datasets: [{
+                label: 'Faculty Members',
+                data: [45, 52, 58, 65, 72, 80],
+                borderColor: '#8B5CF6',
+                backgroundColor: 'rgba(139, 92, 246, 0.2)',
+                fill: true,
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: true }
+            }
+        }
+    });
+
+    // Polar Area Chart
+    const polarCtx = document.getElementById('polarChart').getContext('2d');
+    new Chart(polarCtx, {
+        type: 'polarArea',
+        data: {
+            labels: ['Technical', 'Cultural', 'Sports', 'Academic', 'Social'],
+            datasets: [{
+                data: [12, 18, 8, 15, 10],
+                backgroundColor: [
+                    'rgba(79, 70, 229, 0.7)',
+                    'rgba(16, 185, 129, 0.7)',
+                    'rgba(245, 158, 11, 0.7)',
+                    'rgba(59, 130, 246, 0.7)',
+                    'rgba(236, 72, 153, 0.7)'
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'bottom' }
+            }
+        }
+    });
+
+    // Radar Chart
+    const radarCtx = document.getElementById('radarChart').getContext('2d');
+    new Chart(radarCtx, {
+        type: 'radar',
+        data: {
+            labels: ['Teaching', 'Research', 'Placements', 'Infrastructure', 'Innovation'],
+            datasets: [{
+                label: 'CS Department',
+                data: [85, 90, 88, 80, 92],
+                borderColor: '#4F46E5',
+                backgroundColor: 'rgba(79, 70, 229, 0.2)'
+            }, {
+                label: 'EE Department',
+                data: [80, 85, 75, 85, 78],
+                borderColor: '#10B981',
+                backgroundColor: 'rgba(16, 185, 129, 0.2)'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'top' }
+            }
+        }
+    });
+
+    // Mixed Chart
+    const mixedCtx = document.getElementById('mixedChart').getContext('2d');
+    new Chart(mixedCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            datasets: [{
+                label: 'Revenue',
+                type: 'line',
+                data: [120, 150, 180, 170, 200, 230],
+                borderColor: '#10B981',
+                backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                yAxisID: 'y'
+            }, {
+                label: 'Expenses',
+                type: 'bar',
+                data: [90, 110, 130, 125, 150, 170],
+                backgroundColor: '#EF4444',
+                yAxisID: 'y'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'top' }
+            },
+            scales: {
+                y: {
+                    type: 'linear',
+                    position: 'left'
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

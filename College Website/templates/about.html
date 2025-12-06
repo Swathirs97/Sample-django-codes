@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+
+{% block title %}About Us - EduCollege{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header-section bg-primary text-white py-5">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <!-- <ol class="breadcrumb bg-transparent mb-3">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-white"><i class="fas fa-home me-2"></i>Home</a></li>
+                <li class="breadcrumb-item active text-white" aria-current="page">About Us</li>
+            </ol> -->
+        </nav>
+        <h1 class="display-4 fw-bold mb-3">About EduCollege</h1>
+        <p class="lead mb-0">Excellence in Education Since 1950</p>
+    </div>
+</section>
+
+<!-- About Content -->
+<section class="about-intro py-5">
+    <div class="container">
+        <div class="row align-items-center g-4">
+            <div class="col-lg-6">
+                <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=600&h=400&fit=crop" alt="College Campus" class="img-fluid rounded-4 shadow-lg">
+            </div>
+            <div class="col-lg-6">
+                <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 mb-3">
+                    <i class="fas fa-award me-2"></i>Since 2005
+                </span>
+                <h2 class="display-6 fw-bold mb-3">Shaping Future Leaders</h2>
+                <p class="text-muted mb-3">Founded in 2005, our college has been at the forefront of higher education for over seven decades. What started as a small institution with just 100 students has grown into a comprehensive college serving thousands of students from diverse backgrounds.</p>
+                <p class="text-muted">Our commitment to academic excellence and student success has remained unwavering throughout our history, making us one of the most trusted educational institutions in the region.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Vision & Mission -->
+<section class="vision-mission-section py-5 bg-light">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-6">
+                <div class="vision-card bg-white rounded-4 shadow-sm p-4 h-100">
+                    <div class="icon-box bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                        <i class="fas fa-eye fa-2x"></i>
+                    </div>
+                    <h3 class="fw-bold mb-3">Our Vision</h3>
+                    <p class="text-muted mb-0">To be a leading institution of higher learning that prepares students to become responsible global citizens and lifelong learners, contributing to the advancement of knowledge and society.</p>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="mission-card bg-white rounded-4 shadow-sm p-4 h-100">
+                    <div class="icon-box bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                        <i class="fas fa-bullseye fa-2x"></i>
+                    </div>
+                    <h3 class="fw-bold mb-3">Our Mission</h3>
+                    <p class="text-muted mb-0">Our mission is to provide quality education that fosters intellectual growth, critical thinking, and practical skills. We are committed to creating an inclusive learning environment that encourages innovation, research, and community engagement.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Core Values -->
+<section class="values-section py-5">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <h2 class="display-6 fw-bold mb-3">Our Core Values</h2>
+            <p class="text-muted lead">The principles that guide everything we do</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6">
+                <div class="value-card text-center bg-white rounded-4 shadow-sm p-4 hover-lift h-100">
+                    <div class="icon-box bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px;">
+                        <i class="fas fa-star fa-2x"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Excellence</h4>
+                    <p class="text-muted mb-0">We strive for the highest standards in teaching, research, and service.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="value-card text-center bg-white rounded-4 shadow-sm p-4 hover-lift h-100">
+                    <div class="icon-box bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px;">
+                        <i class="fas fa-shield-alt fa-2x"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Integrity</h4>
+                    <p class="text-muted mb-0">We uphold honesty, transparency, and ethical conduct in all our endeavors.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="value-card text-center bg-white rounded-4 shadow-sm p-4 hover-lift h-100">
+                    <div class="icon-box bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px;">
+                        <i class="fas fa-lightbulb fa-2x"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Innovation</h4>
+                    <p class="text-muted mb-0">We encourage creativity and forward-thinking approaches to education.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="value-card text-center bg-white rounded-4 shadow-sm p-4 hover-lift h-100">
+                    <div class="icon-box bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px;">
+                        <i class="fas fa-users fa-2x"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Diversity</h4>
+                    <p class="text-muted mb-0">We celebrate and promote diversity in all its forms.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="value-card text-center bg-white rounded-4 shadow-sm p-4 hover-lift h-100">
+                    <div class="icon-box bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px;">
+                        <i class="fas fa-hands-helping fa-2x"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Community</h4>
+                    <p class="text-muted mb-0">We build strong partnerships with our community and society.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="value-card text-center bg-white rounded-4 shadow-sm p-4 hover-lift h-100">
+                    <div class="icon-box bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px;">
+                        <i class="fas fa-book-reader fa-2x"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Learning</h4>
+                    <p class="text-muted mb-0">We foster a culture of continuous learning and personal growth.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Statistics -->
+<section class="stats-section py-5 bg-primary text-white">
+    <div class="container">
+        <div class="row g-4 text-center">
+            <div class="col-lg-3 col-md-6">
+                <div class="stat-item">
+                    <h2 class="display-4 fw-bold mb-2">20+</h2>
+                    <p class="mb-0">Years of Excellence</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="stat-item">
+                    <h2 class="display-4 fw-bold mb-2">500+</h2>
+                    <p class="mb-0">Students Enrolled</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="stat-item">
+                    <h2 class="display-4 fw-bold mb-2">50+</h2>
+                    <p class="mb-0">Expert Faculty</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="stat-item">
+                    <h2 class="display-4 fw-bold mb-2">95%</h2>
+                    <p class="mb-0">Placement Rate</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

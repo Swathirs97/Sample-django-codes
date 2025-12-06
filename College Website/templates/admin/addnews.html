@@ -1,0 +1,149 @@
+{% extends 'admin/base_admin.html' %}
+{% load static %}
+
+{% block page_title %}Add News{% endblock %}
+
+{% block content %}
+<div class="page-header mb-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h2 class="mb-1">Add News Article</h2>
+            <p class="text-muted mb-0">Fill in the news details below</p>
+        </div>
+        <a href="{% url 'admin_dashboard' %}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-1"></i>
+            Back to Dashboard
+        </a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">News Title <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="title" name="title" placeholder="e.g., College Wins National Award" required>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="date" class="form-label">Published Date <span class="text-danger">*</span></label>
+                                <input type="date" class="form-control" id="date" name="date" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="category" class="form-label">Category <span class="text-danger">*</span></label>
+                                <select class="form-control" id="category" name="category" required>
+                                    <option value="">Select Category</option>
+                                    <option value="academic">Academic</option>
+                                    <option value="achievement">Achievement</option>
+                                    <option value="event">Event</option>
+                                    <option value="announcement">Announcement</option>
+                                    <option value="placement">Placement</option>
+                                    <option value="research">Research</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="summary" class="form-label">Summary <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="summary" name="summary" rows="2" placeholder="Brief summary for preview..." required></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="content" class="form-label">Full Content <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="content" name="content" rows="6" placeholder="Enter full news content..." required></textarea>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="author" class="form-label">Author</label>
+                                <input type="text" class="form-control" id="author" name="author" placeholder="e.g., Admin">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="source" class="form-label">Source/Link</label>
+                                <input type="url" class="form-control" id="source" name="source" placeholder="e.g., https://example.com">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="tags" class="form-label">Tags</label>
+                        <input type="text" class="form-control" id="tags" name="tags" placeholder="e.g., award, achievement, excellence">
+                        <small class="text-muted">Separate tags with commas</small>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label for="photo" class="form-label">Featured Image</label>
+                        <div class="upload-box text-center p-4 border rounded">
+                            <i class="fas fa-image fa-3x text-muted mb-2"></i>
+                            <p class="text-muted mb-2">Click to upload image</p>
+                            <input type="file" class="form-control" id="photo" name="photo" accept="image/*">
+                            <small class="text-muted">Recommended: 1200x630px, Max 5MB</small>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="file" class="form-label">Attachment (PDF/DOC)</label>
+                        <input type="file" class="form-control" id="file" name="file" accept=".pdf,.doc,.docx">
+                        <small class="text-muted">Optional document attachment</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Status</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="status" id="published" value="published" checked>
+                            <label class="form-check-label" for="published">
+                                <i class="fas fa-check-circle text-success me-1"></i>
+                                Published
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="status" id="draft" value="draft">
+                            <label class="form-check-label" for="draft">
+                                <i class="fas fa-edit text-warning me-1"></i>
+                                Draft
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="featured" name="featured">
+                            <label class="form-check-label" for="featured">
+                                <i class="fas fa-star text-warning me-1"></i>
+                                Featured News
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end gap-2 mt-4">
+                <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary">Cancel</a>
+                <button type="submit" name="save_draft" class="btn btn-outline-primary">
+                    <i class="fas fa-save me-1"></i>
+                    Save as Draft
+                </button>
+                <button type="submit" class="btn-add">
+                    <i class="fas fa-check me-1"></i>
+                    Publish News
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

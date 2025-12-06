@@ -1,0 +1,181 @@
+{% extends 'admin/base_admin.html' %}
+{% load static %}
+
+{% block page_title %}Tables{% endblock %}
+
+{% block content %}
+<div class="row g-4 mb-4">
+    <!-- All Applications Table -->
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">Student Applications</h5>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-sm btn-outline-primary">
+                            <i class="fas fa-filter me-1"></i>Filter
+                        </button>
+                        <button class="btn btn-sm btn-primary">
+                            <i class="fas fa-download me-1"></i>Export
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-controls mb-3">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <div class="show-entries">
+                                <label class="d-flex align-items-center gap-2">
+                                    Show
+                                    <select class="form-select form-select-sm" style="width: auto;">
+                                        <option>10</option>
+                                        <option>25</option>
+                                        <option>50</option>
+                                        <option>100</option>
+                                    </select>
+                                    entries
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="search-box">
+                                <input type="text" class="form-control form-control-sm" placeholder="Search applications...">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle data-table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input type="checkbox" class="form-check-input">
+                                </th>
+                                <th>Student Name</th>
+                                <th>Email</th>
+                                <th>Program</th>
+                                <th>Department</th>
+                                <th>Date Applied</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for app in applications %}
+                            <tr>
+                                <td>
+                                    <input type="checkbox" class="form-check-input">
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar-sm me-2">{{ app.first_name|first }}{{ app.last_name|first }}</div>
+                                        <strong>{{ app.first_name }} {{ app.last_name }}</strong>
+                                    </div>
+                                </td>
+                                <td>{{ app.email }}</td>
+                                <td>{{ app.get_program_type_display }}</td>
+                                <td>{% if app.course %}{{ app.course.department.name }}{% else %}N/A{% endif %}</td>
+                                <td>{{ app.application_date|date:"M d, Y" }}</td>
+                                <td>
+                                    <span class="badge badge-{{ app.status }}">{{ app.get_status_display }}</span>
+                                </td>
+                                <td>
+                                    <div class="btn-group btn-group-sm">
+                                        <button class="btn btn-outline-primary" title="View">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="btn btn-outline-success" title="Approve">
+                                            <i class="fas fa-check"></i>
+                                        </button>
+                                        <button class="btn btn-outline-danger" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="8" class="text-center text-muted py-4">No applications found</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="table-footer d-flex justify-content-between align-items-center mt-3">
+                    <div class="showing-entries">
+                        Showing 1 to {{ applications|length }} of {{ total_applications }} entries
+                    </div>
+                    <nav>
+                        <ul class="pagination pagination-sm mb-0">
+                            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Placement Records Table -->
+<div class="row g-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Placement Records</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th>Student</th>
+                                <th>Company</th>
+                                <th>Package</th>
+                                <th>Department</th>
+                                <th>Year</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for record in placements %}
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        {% if record.photo %}
+                                        <img src="{{ record.photo.url }}" class="rounded-circle me-2" style="width: 35px; height: 35px; object-fit: cover;">
+                                        {% else %}
+                                        <div class="avatar-sm me-2">{{ record.student_name|first }}</div>
+                                        {% endif %}
+                                        <span>{{ record.student_name }}</span>
+                                    </div>
+                                </td>
+                                <td><strong>{{ record.company_name }}</strong></td>
+                                <td><span class="badge bg-success">{{ record.package }}</span></td>
+                                <td>{{ record.department.name }}</td>
+                                <td>{{ record.year }}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="6" class="text-center text-muted py-4">No placement records found</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

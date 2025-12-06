@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}Courses - EduCollege{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header-section bg-primary text-white py-5">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <!-- <ol class="breadcrumb bg-transparent mb-3">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-white"><i class="fas fa-home me-2"></i>Home</a></li>
+                <li class="breadcrumb-item active text-white" aria-current="page">Courses</li>
+            </ol> -->
+        </nav>
+        <h1 class="display-4 fw-bold mb-3">Our Courses</h1>
+        <p class="lead mb-0">Discover our comprehensive academic programs</p>
+    </div>
+</section>
+
+<!-- Courses Content -->
+<section class="courses-section py-5">
+    <div class="container">
+        {% if courses %}
+            <div class="row g-4">
+                {% for course in courses %}
+                <div class="col-lg-4 col-md-6">
+                    <div class="course-card bg-white rounded-4 shadow-sm p-4 h-100 hover-lift">
+                        <div class="course-header mb-3">
+                            <div class="icon-box bg-primary bg-opacity-10 text-primary rounded-3 d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                                <i class="fas fa-book fa-2x"></i>
+                            </div>
+                            <h3 class="fw-bold mb-2">{{ course.name }}</h3>
+                            <span class="badge bg-primary rounded-pill">{{ course.code }}</span>
+                        </div>
+                        <div class="course-details">
+                            <div class="detail-item d-flex align-items-center mb-2">
+                                <i class="fas fa-building text-primary me-2"></i>
+                                <span class="text-muted"><strong>Department:</strong> {{ course.department.name }}</span>
+                            </div>
+                            <div class="detail-item d-flex align-items-center mb-3">
+                                <i class="fas fa-clock text-primary me-2"></i>
+                                <span class="text-muted"><strong>Duration:</strong> {{ course.duration }}</span>
+                            </div>
+                            <p class="text-muted mb-0">{{ course.description }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info text-center py-5">
+                <i class="fas fa-info-circle fa-3x mb-3"></i>
+                <h4>No Courses Available</h4>
+                <p class="mb-0">No courses have been added yet. Please check back later or contact the administrator.</p>
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section py-5 bg-light">
+    <div class="container text-center">
+        <h2 class="display-6 fw-bold mb-3">Ready to Start Learning?</h2>
+        <p class="lead text-muted mb-4">Join thousands of students who have transformed their careers with us</p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+            <a href="{% url 'apply' %}" class="btn btn-primary btn-lg rounded-pill px-5">
+                <i class="fas fa-paper-plane me-2"></i>Apply Now
+            </a>
+            <a href="{% url 'contact' %}" class="btn btn-outline-primary btn-lg rounded-pill px-5">
+                <i class="fas fa-phone me-2"></i>Contact Us
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

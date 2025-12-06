@@ -1,0 +1,72 @@
+{% extends 'admin/base_admin.html' %}
+{% load static %}
+
+{% block page_title %}{{ action|title }} Department{% endblock %}
+
+{% block content %}
+<div class="page-header mb-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h2 class="mb-1">{{ action|title }} Department</h2>
+            <p class="text-muted mb-0">Fill in the department details below</p>
+        </div>
+        <a href="{% url 'admin_departments_list' %}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-1"></i>
+            Back to List
+        </a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Department Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="name" name="name" value="{{ department.name|default:'' }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="head" class="form-label">Head of Department <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="head" name="head" value="{{ department.head|default:'' }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="established_year" class="form-label">Established Year <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" id="established_year" name="established_year" value="{{ department.established_year|default:'' }}" min="1900" max="2100" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="description" name="description" rows="4" required>{{ department.description|default:'' }}</textarea>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label for="head_photo" class="form-label">Head Photo</label>
+                        {% if department.head_photo %}
+                        <div class="photo-preview mb-2">
+                            <img src="{{ department.head_photo.url }}" alt="Current Photo" class="img-fluid rounded">
+                        </div>
+                        {% endif %}
+                        <input type="file" class="form-control" id="head_photo" name="head_photo" accept="image/*">
+                        <small class="text-muted">Recommended: 300x300px, Max 2MB</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end gap-2 mt-4">
+                <a href="{% url 'admin_departments_list' %}" class="btn btn-secondary">Cancel</a>
+                <button type="submit" class="btn-add">
+                    <i class="fas fa-save me-1"></i>
+                    Save Department
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
